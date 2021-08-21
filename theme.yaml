@@ -1,0 +1,19 @@
+# theme.toml template for a Hugo theme
+# See https://github.com/gohugoio/hugoThemes#themetoml for an example
+
+name: bloggo-default
+license: MIT
+licenselink: >-
+  https://github.com/pluveto/crux/blob/main/LICENSE
+description: A boilerplate starter theme using Tailwind CSS.
+homepage: 'https://github.com/pluveto/crux'
+tags:
+  - Hugo
+  - Tailwind CSS
+  - theme
+  - minimalist
+features: []
+min_version: '0.69'
+author:
+  name: Zhang Zijing
+  homepage: 'https://github.com/pluveto/'

@@ -1,0 +1,4 @@
+/node_modules
+/exampleSite
+*.lock
+*.log

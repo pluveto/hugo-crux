@@ -1,0 +1,96 @@
+{{ define "main" }}
+<div id="app" class="flex h-full">
+    <header class="flex flex-col" style="padding: 4em; background-color: #0a0e14; width: 20em;">
+        <div class="shadow-title parallax-top-shadow" style="top: 0px;">Fight</div>
+      <div class="text-2xl mb-4" style=" color: #eee;">
+        Less
+        <span class="" style="color:#dd3735">Bug</span>
+      </div>
+      <ul class="flex flex-col font-light" style="color: #b3b1ad;z-index: 1;">
+        <li>Home</li>
+        <li style="color: #eee;">Archives</li>
+        <li>Links</li>
+        <li>About</li>
+      </ul>
+    </header>
+    <main
+      class="flex-grow p-16 overflow-auto"
+      style="background-color: #fff; color: #0a0e14;"
+    >
+        <article class="px-6 mb-16 prose text-gray-700 justify-self-center sm:px-4 md:px-0 lg:prose-lg">
+            <h1>{{ .Title }}</h1>
+            {{ .Content }}
+        </article>
+        {{ template "_internal/disqus.html" . }}
+
+    </main>
+    <div>
+        <div class="toc-nav">
+        <div class="text-center">- Contents - </div>
+            {{ .TableOfContents }}
+        </div>
+    </div>
+  </div>
+  <style>        
+    @media screen and (min-width: 1400px) {
+        .toc-nav{
+        position: absolute;
+        top: 3.5em;
+        left: 71.2em;
+    }
+    }
+    #TableOfContents{
+        font-weight:300;
+        font-size:smaller;
+        line-height: 1.8em;
+    }
+    #TableOfContents ul {
+        margin-left: 1em;
+    }
+    #TableOfContents li a{
+        padding-left: 1em;
+        border-left: 2px solid #00000000;
+    }
+    #TableOfContents li a.active{
+        padding-left: 1em;
+        font-weight: 600;
+        border-left: 2px solid #f7853a;
+    }
+    #TableOfContents li a:hover{
+        border-left: 2px solid #f7853a;
+        font-weight: 600;
+    }
+  </style>
+  <script>
+      // Vanilla js ScrollSpy
+      (function() {
+        'use strict';
+        var main = document.querySelector("main")
+        var toc = document.querySelector("#TableOfContents")
+        var section = main.querySelectorAll("h2, h3, h4, h5, h6")
+        var sections = {};
+        var i = 0;        
+
+        main.onscroll = function() {
+            // 不把它放在外面，是因为图片可能按需加载，导致一开始读取的偏移量是偏小的
+            section.forEach(function(e) {
+                // or e.getBoundingClientRect().top
+                sections[e.id] = e.offsetTop;
+                console.log("e", e.offsetTop);
+            });
+            // 如果 + main.clientHeight; 的话，则是底部看到元素就算进入。
+            // 否则是等元素向上滚出才算进入。所以这里的 50 实际上是元素的估算高度
+            var scrollPosition = main.scrollTop + 50; // + main.clientHeight 
+            for (i in sections) {
+                if (sections[i] < scrollPosition) {
+                    console.log("scrollPosition", scrollPosition);
+                    toc.querySelector('.active')?.setAttribute('class', ' ');
+                    toc.querySelector('a[href*=' + i + ']').setAttribute('class', 'active');                    
+                }
+            }
+        };
+        main.onscroll()
+      })();
+
+  </script>
+{{end}}

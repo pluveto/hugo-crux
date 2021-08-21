@@ -1,0 +1,64 @@
+{{ define "main" }}
+<div id="app" class="flex h-full">
+    <header class="flex flex-col" style="padding: 4em; background-color: #0a0e14;">
+      <div class="text-2xl mb-4" style=" color: #eee;">
+        Less
+        <span class="" style="color:#dd3735">Bug</span>
+      </div>
+      <ul class="flex flex-col font-light" style="color: #b3b1ad;">
+        <li>Home</li>
+        <li style="color: #eee;">Archives</li>
+        <li>Links</li>
+        <li>About</li>
+      </ul>
+    </header>
+    <main
+      class="flex-grow p-16 overflow-auto"
+      style="background-color: #fff; color: #0a0e14;"
+    >
+      <div class="mb-8">
+        <div class="text-3xl">Recent</div>
+        <div>
+          <span style="color: #bbb;">8月21日</span>
+          C++ 的泛型依赖问题
+        </div>
+      </div>
+      <div class="mb-8">
+        <div class="text-3xl">Tags</div>
+        <div class="flex space-x-2">
+          <div class="bg-gray-300 px-2 py-1 rounded-md min-w-16 text-center">Markdown</div>
+          <div class="bg-gray-300 px-2 py-1 rounded-md min-w-16 text-center">前端</div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <div class="text-3xl">Archives</div>
+      </div>
+      <div class="mb-4">
+        <div class="text-2xl mb-2">Posts</div>
+        <div>
+            {{ range (.Site.RegularPages.GroupByDate "2006") }}
+            <h3>{{ .Key }}</h3>
+
+            <ul class="archive-list mb-4">
+                {{ range (where .Pages "Type" "posts") }}
+                    <li>
+                        <span style="color: #bbb; width: 2em; display: inline-block;">{{ .PublishDate.Format "1/2" }}</span>
+                        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                    </li>
+                {{ end }}
+            </ul>
+              {{ end }}
+        </div>
+      </div>
+      <div class="mb-4">
+        <div class="text-2xl">Series</div>
+        <div>
+          <div>
+           
+            C++ 的泛型依赖问题
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+{{end}}
