@@ -202,7 +202,7 @@ During the build process Hugo Pipes checks this variable too and build the `styl
 {{ else }}
     {{ $styles := $styles| minify | fingerprint | resources.PostProcess }}
     <link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}">
-{{ end }}
+{{- end -}}
 ```
 
 ## Reference

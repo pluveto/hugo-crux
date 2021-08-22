@@ -1,8 +1,63 @@
 {{ define "main" }}
-{{ range .Pages }}
-    <article class="px-6 mx-auto mb-16 prose text-gray-700 justify-self-center sm:px-4 md:px-0 lg:prose-lg">
-        <h1><a href="{{ .Permalink }}">{{ .Title }}</a></h1>
-        {{ .Content }}
-    </article>
-{{ end }}
-{{ end }}
+<div id="app" class="flex flex-col md:flex md:flex-row h-full">
+    {{ partial "sidenav" . }}
+    <main
+      class="flex-grow p-8 md:p-16 overflow-auto flex flex-col"
+      style="background-color: #fff; color: #0a0e14;"
+    >
+    <div class="content flex-1">
+        <h3 class="section-title">
+            {{ if eq .Parent (.GetPage "/") }}
+                {{ T "list.section" }}
+            {{ else }}
+                <a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a> <span class="text-gray-300">/</span>
+            {{- end -}}
+        </h3>
+    
+        <div class="section-card mb-4">
+            <div class="section-details">
+                <h3 class="section-count">{{ T "list.page" (len .Pages) }}</h3>
+                <h1 class="section-term text-3xl">{{ .Title }}</h1>
+                {{ with .Params.description }}
+                    <h2 class="section-description">{{ . }}</h2>
+                {{- end -}}
+            </div>
+        </div>
+    
+        {{- $subsections := .Sections -}}
+        {{- $pages := .Pages | complement $subsections -}}
+        
+        {{- if eq (len $pages) 0 -}}
+            {{/* If there are no normal pages, display subsections in list style, with pagination */}}
+            {{/* This happens with taxonomies like categories or tags */}}
+            {{- $pages = $subsections -}}
+            {{- $subsections = slice -}}
+        {{- end -}}
+    
+        {{- with $subsections -}}
+            <h2 class="section-title">{{ T "list.subsection" (len $subsections) }}</h2>
+            <div class="subsection-list">
+                <div class="article-list--tile">
+                    {{ range . }}
+                        {{ partial "article-list/tile" (dict "context" . "size" "250x150" "Type" "section") }}
+                    {{- end -}}
+                </div>
+            </div>
+        {{- end -}}
+        
+        {{/* List only pages that are not a subsection */}}
+        {{ $paginator := .Paginate $pages }}
+        <section class="article-list--compact">
+            {{ range $paginator.Pages }}
+                {{ partial "article-list/compact" . }}
+            {{- end -}}
+        </section>
+    
+        {{- partial "pagination.html" . -}}
+    </div>
+    <div class="">
+        {{ partial "copyright" .}}
+    </div>
+    </main>
+  </div>
+{{end}}

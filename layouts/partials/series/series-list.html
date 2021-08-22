@@ -1,0 +1,56 @@
+
+        {{- $subsections := .Sections -}}
+
+        {{- $pages := .Pages -}}
+
+        {{- if eq (len $pages) 0 -}}
+        
+            {{- $pages = $subsections -}}
+            {{- $subsections = slice -}}
+            
+        {{- end -}}
+    
+        {{- with $subsections -}}
+        
+            <h2 class="section-title">{{ T "list.subsection" (len $subsections) }}</h2>
+            <!-- 具体的文集列表 -->
+            <div class="subsection-list mb-4">
+                <div class="flex flex-wrap">
+                    {{ range . }}
+                    <article class="flex border mb-4 mr-4 p-4" style="width: 19em;">
+                        <div>
+                            <box-icon name='book' type='solid' color='#2657e6'></box-icon>
+                        </div>
+                        <div class="w-full flex flex-col">
+                            <a href="{{ .RelPermalink }}">                            
+                                <div class="article-details mb-2">                                
+                                    <h2 class="article-title font-bold" style="padding-top: 2px;" >
+                                        {{ .Title }}
+                                    </h2>                                
+                                </div>
+                            </a>
+                            <div class="content text-sm text-gray-500 mb-2 flex-grow">
+                                {{ .Summary | plainify }}
+                            </div>       
+                            <div class="flex justify-between"> 
+
+                                <span class="flex-grow text-xs text-gray-400 whitespace-nowrap overflow-hidden"
+                                style="
+                                max-width: 17em;
+                                text-overflow: ellipsis;
+                                "
+                                >最近更新：
+                                    {{ range last 1 (.Pages.ByLastmod)}}
+                                        <a class="text-blue-400  whitespace-nowrap  overflow-hidden" href="{{ .Permalink }}">{{ .Title }}</a>
+                                    {{- end -}}                                    
+                                </span>
+                                <span class="text-xs text-gray-400" style="min-width: 4em;">共 
+                                    <span class="text-blue-400">{{ len .Pages }}</span>
+                                    章
+                                </span>
+                            </div>
+                    </article>
+                    {{- end -}}
+                </div>
+            </div>
+        {{- end -}}

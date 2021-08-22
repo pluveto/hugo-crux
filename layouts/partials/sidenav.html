@@ -1,0 +1,162 @@
+<!-- 给手机用 -->
+<div class="md:hidden">
+  <div class="text-2xl p-4 shadow-sm border flex items-center" style=" color: #111;">
+    <img style="
+    height: 24px;
+    width: inherit;
+    display: inline;
+    margin-right: .2em;
+    " src="/pluveto-logo.png" alt="">
+    <a class="flex-grow pt-2" href="{{ .Site.BaseURL }}">Less <span class="" style="color:#dd3735">Bug</span></a>    
+    <a href="javascript:;" onclick="toggleMobileMenu()" class="w-16 flex justify-end">
+      <box-icon class=" hover:bg-gray-200" name='menu' color='#666' size='32px' ></box-icon>
+    </a>
+    
+  </div>
+  <script>
+    function toggleMobileMenu(){
+      console.log("toggleMobileMenu");
+      var menu = document.querySelector('.mobile-menu');
+      if (menu.style.display == 'block'){
+        menu.style.display = 'none'
+      }else{
+        menu.style.display = 'block'
+      }
+      
+    }
+  </script>
+  <div class="hidden mobile-menu bg-gray-100 py-4">
+    <style>
+      .mobile-menu {
+        -webkit-transition: opacity 1s ease-in;
+        -moz-transition: opacity 1s ease-in;
+        -o-transition: opacity 1s ease-in;
+        transition: opacity 1s ease-in;
+      }
+      .mobile-menu>aside>ul>li{
+        padding-left: 2em;
+        line-height: 2em;
+      }
+      .mobile-menu>aside>ul>li>a{
+        display: inline-block;
+        width: 100%
+      }
+      .mobile-menu>aside>ul>li:hover{
+        background-color: #ffd9d9;
+      }
+    </style>
+    <aside>
+      <ul>
+          <li><a href="{{ .Site.BaseURL }}">Home</a></li>
+          {{ $currentPage := . }}
+          {{ range .Site.Menus.main }}
+              {{ if .HasChildren }}
+                  <li class="{{ if $currentPage.HasMenuCurrent "main" . }}active{{- end -}}">
+                      <a href="#">
+                          {{ .Pre }}
+                          <span>{{ .Name }}</span>
+                      </a>
+                  </li>
+                  <ul class="sub-menu">
+                      {{ range .Children }}
+                          <li class="{{ if $currentPage.IsMenuCurrent "main" . }}active{{- end -}}">
+                              <a href="{{ .URL }}">{{ .Name }}</a>
+                          </li>
+                      {{- end -}}
+                  </ul>
+              {{ else }}
+                  <li>
+                      <a href="{{ .URL }}">
+                          {{ .Pre }}
+                          <span>{{ .Name }}</span>
+                      </a>
+                  </li>
+              {{- end -}}
+          {{- end -}}
+      </ul>
+    </aside>    
+  </div>
+</div>
+
+<!-- 正常 -->
+<header class="hidden md:flex flex-col" style="padding: 4em; background-color: #0a0e14; width: 20em;">
+  <div class="shadow-title parallax-top-shadow" style="top: 0px;">Fight</div>
+  <div class="text-2xl mb-4" style=" color: #eee;">
+    <a href="{{ .Site.BaseURL }}">Less <span class="" style="color:#dd3735">Bug</span></a>    
+  </div>
+  <nav class="site-navbar flex-1 z-10">
+    <ul id="menu" class="menu flex flex-col font-light" style="color: #b3b1ad;z-index: 1;">
+          <li><a href="{{ .Site.BaseURL }}">Home</a></li>
+      {{ $currentPage := . }}
+      {{ range .Site.Menus.main }}          
+          <li class="menu-item{{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }} active{{end}}">
+          {{ if .HasChildren }}
+            <!-- drop down navigation MENU -->
+            <a class="menu-item-link menu-parent" href="{{ .URL | absLangURL | safeURL }}">{{ .Name }}</a>
+            <ul class="submenu">              
+              {{ range .Children }}
+                <li>
+                  <a href="{{ .URL | absLangURL | safeURL }}">{{ .Name }}</a>
+                </li>
+              {{- end -}}
+            </ul>
+  
+          {{ else }}
+            <!-- normal MENU -->
+            {{ if hasPrefix .URL "http" }}
+              <a class="menu-item-link" href="{{ .URL | absLangURL | safeURL }}" rel="noopener" target="_blank">
+                {{ .Name }}
+                {{/* icon new window */}}
+                <i class="iconfont">
+                  {{ partial "svg/new_window.svg" }}
+                </i>
+              </a>
+            {{ else }}
+              <a class="menu-item-link" href="{{ .URL | absLangURL | safeURL }}">{{ .Name }}</a>
+            {{- end -}}
+  
+          {{ end  }}
+  
+        </li>
+      {{- end -}}
+  
+      {{/* language chooser */}}
+      {{ if and (gt (len .Site.Home.AllTranslations) 1) (.Site.Params.showMenuLanguageChooser | default false ) }}
+        {{- $.Scratch.Set "language" .Language -}}
+        <li class="menu-item">
+          <!-- drop down navigation MENU -->
+          <a class="menu-item-link menu-parent menu-item-lang" href="#">
+            {{/* icon globe */}}
+            <i class="iconfont">
+              {{ partial "svg/globe.svg" }}
+            </i>
+            {{ .Site.Language.LanguageName }}
+          </a>
+          <ul class="submenu">
+            {{ range .Site.Home.AllTranslations }}
+              {{ if ne ($.Scratch.Get "language") .Language }}
+                <li>
+                  <a href="{{ .Permalink }}">{{ .Language.LanguageName }}</a>
+                </li>
+              {{- end -}}
+            {{- end -}}
+          </ul>
+        </li>
+      {{- end -}}
+  
+      {{ if .Site.Params.search.google.enable }}
+        <li class="menu-item">
+          <a id="openSearch" class="menu-item-link menu-item-search" href="#">
+            <i class="iconfont">
+              {{ partial "svg/search.svg" }}
+            </i>
+          </a>
+        </li>
+      {{- end -}}
+    </ul>
+  </nav>
+  <div class="bottom flex flex-col space-y-2 z-10">
+    <a href="http://github.com/pluveto"><box-icon name='github' type='logo' color='#eee' ></box-icon></a>
+    <box-icon name='rss' type='logo' color='#eee' ></box-icon>
+  </div>
+</header>

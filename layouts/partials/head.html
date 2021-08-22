@@ -1,9 +1,8 @@
-<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ block "title" . }}
     {{- .Title }} - {{ .Site.Title -}}
-    {{ end }}</title>
+    {{- end -}}</title>
     {{- if .Description }}
     <meta name="description" content="{{ .Description }}" />
     {{ end -}}
@@ -14,7 +13,6 @@
     <meta name="author" content="{{ .Params.Author}}" />
     {{ end -}}
     {{ hugo.Generator }}
-
     {{- $styles := resources.Get "css/styles.css" | postCSS (dict "config" "./assets/css/postcss.config.js") -}}
     {{- if .Site.IsServer }}
     <link rel="stylesheet" href="{{ $styles.RelPermalink }}">
@@ -22,10 +20,19 @@
         {{- $styles := $styles| minify | fingerprint | resources.PostProcess -}}
     <link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}">
     {{ end -}}
-    {{- $siteStyle := resources.Get "css/site.css" -}}
+    {{- $siteStyle := resources.Get "css/site.css | minify | fingerprint" -}}
     <link rel="stylesheet" href="{{ $siteStyle.Permalink }}" integrity="{{ $styles.Data.Integrity }}">
+        
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="theme-color" content="#ffffff">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300;400;500&family=WindSong:wght@500&display=swap" rel="stylesheet">
-</head>
+    <script src="https://unpkg.com/boxicons@2.0.9/dist/boxicons.js"></script>
+    {{ partial "busuanzi.html" . }}

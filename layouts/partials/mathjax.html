@@ -1,0 +1,36 @@
+<script src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    messageStyle: "none",
+    jax: ["input/TeX", "output/SVG"],
+    extensions: ["tex2jax.js", "toMathML.js"],
+    TeX: {
+        extensions: ["noUndefined.js", "autoload-all.js", "AMSmath.js", "AMSsymbols.js", "mediawiki-texvc.js"],
+    },
+    SVG: {
+        useGlobalCache: false,
+        merrorStyle: {
+            fontSize:"90%", color:"red", background:"",
+              border: "1px solid red", padding:"2px"
+        },
+        scale: 100, 
+        minScaleAdjust: 80,
+        blacker: 0,
+        matchFontHeight: false,
+        undefinedFamily: "STIXGeneral, 'PingFang SC', serif"
+    },
+    showProcessingMessages: false,
+    tex2jax: {
+        displayMath: [['$$\n', '\n$$'], ['$$\r\n', '\r\n$$']],
+        inlineMath: [ ['$','$'], ['$$', '$$']],
+        processEscapes: true,
+        preview: "none",
+        skipTags: ["script","noscript","style","textarea","pre","code"],
+    },
+    menuSettings: {
+        inTabOrder: false
+    },
+    showMathMenu: false,
+    positionToHash: false
+});
+</script>

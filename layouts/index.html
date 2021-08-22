@@ -1,20 +1,19 @@
 {{ define "main" }}
 
 <div id="app" class="flex flex-col h-full">
-    <header class="flex flex-col p-32">
+    <header class="flex flex-col p-16 md:p-32">
     <div class="text-2xl">
-        Less
-        <span class="text-rose-600" style="color:#dd3735">Bug</span>
+        <a href="{{ .Site.BaseURL }}">Less <span class="" style="color:#dd3735">Bug</span></a>    
     </div>
     <ul class="flex font-light" style="color: #b3b1ad;">
-        <li style="color: #eee;">Home</li>
+        <li style="color: #eee;"><a href="{{ .Site.BaseURL }}">Home</a></li>
+        {{ range .Site.Menus.main }}
         <li class="mx-2">/</li>
-        <li>Archives</li>
-        <li class="mx-2">/</li>
-        <li>About</li>
+        <li><a href="{{ .URL | absLangURL | safeURL }}">{{ .Name }}</a></li>
+        {{- end -}}
     </ul>
     </header>
-    <main class="flex-grow p-32">
+    <main class="flex-grow p-16 md:p-32">
     <canvas id="myCanvas"></canvas>
     <script src="http://paperjs.org/assets/js/paper.js"></script>
     {{ $js := resources.Get "js/ani.js" }}
@@ -24,7 +23,7 @@
         src="{{ $js.RelPermalink }}"
     ></script>
     </main>
-    <footer class="p-32 font-light" style="color: #717271;">
+    <footer class="p-16 md:p-32 font-light" style="color: #717271;">
     pluvet@foxmail.com
     </footer>
 
@@ -34,4 +33,4 @@
         }
     </style>
 </div>
-{{ end }}
+{{- end -}}

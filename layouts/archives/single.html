@@ -1,64 +1,62 @@
 {{ define "main" }}
-<div id="app" class="flex h-full">
-    <header class="flex flex-col" style="padding: 4em; background-color: #0a0e14;">
-      <div class="text-2xl mb-4" style=" color: #eee;">
-        Less
-        <span class="" style="color:#dd3735">Bug</span>
-      </div>
-      <ul class="flex flex-col font-light" style="color: #b3b1ad;">
-        <li>Home</li>
-        <li style="color: #eee;">Archives</li>
-        <li>Links</li>
-        <li>About</li>
-      </ul>
-    </header>
+<div id="app" class="flex flex-col md:flex md:flex-row h-full">
+    {{ partial "sidenav" . }}
     <main
-      class="flex-grow p-16 overflow-auto"
+      class="flex-grow p-8 md:p-16 overflow-auto"
       style="background-color: #fff; color: #0a0e14;"
     >
-      <div class="mb-8">
-        <div class="text-3xl">Recent</div>
-        <div>
-          <span style="color: #bbb;">8月21日</span>
-          C++ 的泛型依赖问题
-        </div>
-      </div>
-      <div class="mb-8">
-        <div class="text-3xl">Tags</div>
-        <div class="flex space-x-2">
-          <div class="bg-gray-300 px-2 py-1 rounded-md min-w-16 text-center">Markdown</div>
-          <div class="bg-gray-300 px-2 py-1 rounded-md min-w-16 text-center">前端</div>
-        </div>
-      </div>
-      <div class="mb-4">
-        <div class="text-3xl">Archives</div>
-      </div>
-      <div class="mb-4">
-        <div class="text-2xl mb-2">Posts</div>
-        <div>
-            {{ range (.Site.RegularPages.GroupByDate "2006") }}
-            <h3>{{ .Key }}</h3>
-
-            <ul class="archive-list mb-4">
-                {{ range (where .Pages "Type" "posts") }}
-                    <li>
-                        <span style="color: #bbb; width: 2em; display: inline-block;">{{ .PublishDate.Format "1/2" }}</span>
-                        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-                    </li>
-                {{ end }}
-            </ul>
-              {{ end }}
-        </div>
-      </div>
-      <div class="mb-4">
-        <div class="text-2xl">Series</div>
-        <div>
-          <div>
-           
-            C++ 的泛型依赖问题
+      <div class="content flex flex-col md:flex-row"> 
+        <div class="posts flex-1 px-6 mb-16 justify-self-center sm:px-4 md:px-0 lg:prose-lg" style="max-width: 65ch;">
+          <div class="mb-4">
+            <div class="text-3xl">Posts</div>
+            <div>
+                {{ range (.Site.RegularPages.GroupByDate "2006") }}
+                <h3>{{ .Key }}</h3>
+    
+                <ul class="archive-list mb-4">
+                    {{ range (where .Pages "Type" "posts") }}
+                        <li>
+                            <span style="color: #bbb; width: 2em; display: inline-block;">{{ .PublishDate.Format "1/2" }}</span>
+                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                        </li>
+                    {{- end -}}
+                </ul>
+                  {{- end -}}
+            </div>
           </div>
-        </div>
-      </div>
+        </div> 
+        <div class="tax">
+          <div class="mb-8">
+            <div class="text-3xl">Tags</div>
+            <div class="flex space-x-2">              
+              {{ if not .Site.Taxonomies.tags}}
+              No tags
+              {{- end -}}
+              {{ range .Site.Taxonomies.tags.ByCount }}
+                  <a href="{{ .Page.RelPermalink }}" class="bg-gray-200 px-2 py-1 rounded-md min-w-16 text-center font_size_{{ .Count }}">
+                      {{ .Page.Title }} <small>({{ .Count }})</small>
+                  </a>
+              {{- end -}} 
+            </div>
+          </div>
+          
+          <div class="mb-8">
+            <div class="text-3xl">Categories</div>
+            <div class="flex space-x-2">              
+              {{ if not .Site.Taxonomies.categories}}
+              No categories
+              {{- end -}}
+              {{ range .Site.Taxonomies.categories.ByCount }}                  
+                  <a href="{{ .Page.RelPermalink }}" class="flex items-center hover:shadow px-2 rounded-md min-w-16 text-center font_size_{{ .Count }}">
+                    <box-icon name='folder-open' type='solid' color='#ffca00' ></box-icon>
+                    <ul id="categories"  class="inline-flex pt-1">{{ .Page.Title }}</ul><small>({{ .Count }})</small>
+                  </a>
+              {{- end -}} 
+            </div>
+          </div>       
+        </div>    
+      </div>      
+      {{ partial "copyright" .}}
     </main>
   </div>
 {{end}}

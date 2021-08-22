@@ -1,0 +1,48 @@
+<div class="meta flex flex-wrap items-center text-sm">
+    {{ with .Params.authors }}
+        <box-icon name='user-circle' type='solid' color='#3ad6a5' ></box-icon>
+        <ul id="authors" class="inline-flex  pt-1 mr-2">
+        {{ range . }}
+            <li><a class="px-1" href="{{ "authors" | absURL}}/{{ . | urlize }}">{{ . }}</a> </li>
+        {{- end -}}                    
+        </ul>              
+    {{- end -}}
+    
+    <box-icon name='time-five' type='solid' color='#3a8cd6' ></box-icon>
+    <div class="px-1 pt-1 text-gray-500 mr-2" style="font-size: small;">
+    {{ if not .Date.IsZero }}
+            <time class="article-time--published">
+                {{- .Date.Format (or .Site.Params.dateFormat.published "Jan 02, 2006") -}}
+            </time>
+    {{- end}} 
+    发布
+    </div>                    
+    
+    {{ with .Params.categories }}
+        <box-icon name='folder-open' type='solid' color='#ffca00' ></box-icon>
+        <ul id="categories" class="text-gray-500 inline-flex  pt-1">
+        {{ range . }}
+            <li><a class="px-1 text-sm" href="{{ "categories" | absURL}}/{{ . | urlize }}">{{ . }}</a> </li>
+        {{- end -}}
+        </ul>
+    {{- end -}}
+
+    <!-- 这是给 series 用的 -->
+    {{ with .Parent}}
+        {{ if eq .Type "series" }}    
+        <box-icon name='package' color='#ff328b' ></box-icon>
+        <span id="series" class="inline-flex pt-1 mr-2">
+            <a style="text-decoration: none; color: #6b7280;" href="{{ .Page.Permalink }}">{{ .Page.Title }}</a>
+        </span>
+        {{- end -}}
+    {{- end -}}
+    
+    <span class="flex">
+        {{- if .Site.Params.busuanzi.enable -}}
+            <box-icon type='solid' name='chart' color='#ef7070'></box-icon>
+            <div class="px-1 pt-1 text-gray-500 mr-2" style="font-size: small;">
+                <span id="busuanzi_value_site_uv">-1</span> 次浏览
+            </div>     
+        {{end}}
+    </span>
+</div>

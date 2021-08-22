@@ -13,6 +13,10 @@ window.onload = function () {
         }
 
         var rand = (from, to) => {
+            var i = 0
+            while (i < 250) {
+                i++
+            }
             var delta = to - from
             return Math.random() * delta + from
         }
@@ -34,6 +38,7 @@ window.onload = function () {
                 this.path = new Path.Circle(pos, rad)
                 this.path.fillColor = color;
                 this.mass = mass
+                this.historySize = 1000
                 this.a = new Point(0, 0)
                 this.v = new Point(0, 0)
                 this.track = {
@@ -62,7 +67,7 @@ window.onload = function () {
                 if (this.path.position.getDistance(lastPt) < 4) {
                     return
                 }
-                if (this.track.segs.length == 300) {
+                if (this.track.segs.length == this.historySize) {
                     this.track.segs.shift()
                 }
                 this.track.segs.push(this.path.position.clone())
@@ -72,11 +77,12 @@ window.onload = function () {
         }
 
         var constants = {
-            G: 6.67
+            G: 6.67 * 2
         }
         var calFg = (m1, m2, p1, p2) => {
             var r = p1.getDistance(p2)
-            if (r < 20) {
+            // 避免离谱现象
+            if (r <= 20) {
                 return new Point(0, 0)
             }
             var dx = p2.x - p1.x
@@ -101,25 +107,37 @@ window.onload = function () {
                 return delta
             }
         }
-        var m = [rand(0.10, 0.3), rand(0.10, 0.3), rand(0.10, 0.3)]
-        var r = [m[0] * 50, m[1] * 50, m[2] * 50]
-        var s1 = new Body(createPoint(0, 30), r[0], m[0], "red", "#bf395f")
-        s1.v = new Point(0.2, 0)
-        var s2 = new Body(createPoint(-40, -20), r[1], m[1], "#bcd23f", "#bcd23f")
-        s2.v = new Point(0, 0)
-        var s3 = new Body(createPoint(40, -20), r[2], m[2], "#479acb", "#479acb")
-        s3.v = new Point(0, 0.2)
+        const vRange = () => rand(-0.1, 0.1)
+        const posRange = () => rand(-300, 300)
+        var m = [rand(0.02, 0.2), rand(0.02, 0.2), rand(0.02, 0.2)]
+        var r = [(m[0]) * 50, (m[1]) * 50, (m[2]) * 50]
 
+        var s1 = new Body(createPoint(posRange(), posRange()), r[0], m[0], "#bf395f", "#bf395f")
+        s1.v = new Point(vRange(), vRange())
+
+        var s2 = new Body(createPoint(posRange(), posRange()), r[1], m[1], "#bcd23f", "#bcd23f")
+        s2.v = new Point(vRange(), vRange())
+
+        var s3 = new Body(createPoint(posRange(), posRange()), r[2], m[2], "#479acb", "#479acb")
+        s3.v = new Point(vRange(), vRange())
+        var bodies = [s1, s2, s3]
+        var centerBody = 0;
+        document.querySelector("#app > main").addEventListener("click", () => {
+            centerBody = (centerBody + 1) % (bodies.length)
+            console.log(centerBody);
+        })
         view.onFrame = (event) => {
             const fragments = 40
             var dt = time.delta();
-            var fg12 = calFg(s1.mass, s2.mass, s1.path.position, s2.path.position)
-            var fg13 = calFg(s1.mass, s3.mass, s1.path.position, s3.path.position)
-            var fg23 = calFg(s2.mass, s3.mass, s2.path.position, s3.path.position)
-            view.center = s1.path.position
-            s1.setForce(fg12.add(fg13), dt)
-            s2.setForce(fg12.multiply(-1).add(fg23), dt)
-            s3.setForce(fg13.multiply(-1).add(fg23.multiply(-1)), dt)
+            for (let i = 0; i < dt; i++) {
+                var fg12 = calFg(s1.mass, s2.mass, s1.path.position, s2.path.position)
+                var fg13 = calFg(s1.mass, s3.mass, s1.path.position, s3.path.position)
+                var fg23 = calFg(s2.mass, s3.mass, s2.path.position, s3.path.position)
+                view.center = bodies[centerBody].path.position
+                s1.setForce(fg12.add(fg13), 1)
+                s2.setForce(fg12.multiply(-1).add(fg23), 1)
+                s3.setForce(fg13.multiply(-1).add(fg23.multiply(-1)), 1)
+            }
         }
         // var pts = []
         // 

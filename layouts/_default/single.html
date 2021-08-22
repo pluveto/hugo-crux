@@ -1,73 +1,80 @@
 {{ define "main" }}
-<div id="app" class="flex h-full">
-    <header class="flex flex-col" style="padding: 4em; background-color: #0a0e14; width: 20em;">
-        <div class="shadow-title parallax-top-shadow" style="top: 0px;">Fight</div>
-      <div class="text-2xl mb-4" style=" color: #eee;">
-        Less
-        <span class="" style="color:#dd3735">Bug</span>
-      </div>
-      <ul class="flex flex-col font-light" style="color: #b3b1ad;z-index: 1;">
-        <li>Home</li>
-        <li style="color: #eee;">Archives</li>
-        <li>Links</li>
-        <li>About</li>
-      </ul>
-    </header>
+<div id="app" class="flex flex-col md:flex md:flex-row h-full">
+    {{ partial "sidenav" . }}
     <main
-      class="flex-grow p-16 overflow-auto"
+      class="flex-grow p-8 md:p-16 overflow-auto"
       style="background-color: #fff; color: #0a0e14;"
     >
         <article class="px-6 mb-16 prose text-gray-700 justify-self-center sm:px-4 md:px-0 lg:prose-lg">
             <h1>{{ .Title }}</h1>
-            {{ .Content }}
-        </article>
-        {{ template "_internal/disqus.html" . }}
 
+            <div class="">
+                {{ partial "meta-header" .}}
+
+                {{ .Content }}
+                
+                {{ partial "meta-footer" .}}
+                
+            </div>
+
+            <!-- 这是给 series 用的 -->
+            {{ $permalink := .Permalink}}
+            {{ with .Parent}}
+            {{ if eq .Type "series" }}    
+            <div class="mt-4 p-4 bg-gray-50 rounded-md text-center">
+                
+                <div class="series-title py-8 flex items-center justify-center">
+                    <box-icon name='package' color='#ff328b' ></box-icon>
+                    <span id="series"  class="inline-flex  pt-1 text-xl font-light">
+                        <a style="text-decoration: none"  href="{{ .Page.Permalink }}">{{ .Page.Title }}</a>
+                    </span>
+                </div>
+                
+
+                {{ $lastPost := index (last 1 .Pages) 0 }}
+
+
+                <div class="text-center">
+                                
+                
+                {{- range .Pages -}}
+                        <a href="{{.Permalink}}" class="block rounded-md p-4 mx-4 hover:bg-white" style="text-decoration: none;">
+                            {{ if eq $permalink .Permalink}}
+                            <div class="text-base font-bold" >{{.Title}}</div>
+                            {{ else }}
+                            <div class="text-base font-light">{{.Title}}</div>
+                            {{- end -}}
+                            <div class="text-xs text-gray-300">{{ .Date.Format "2006/1/2" }} 发布</div>
+                            <div class="mb-4 mt-2 md:hidden">
+                                <div class="font-bold hidden">{{ .Date.Format "2006" }}</div>
+                                
+                            </div>
+                        </a>
+                {{- end -}}    
+                
+                </div>
+                                
+
+            </div>
+            {{- end -}}
+            {{- end -}}            
+
+            {{ partial "comments" . }}
+        </article>
+        {{ partial "copyright" .}}
     </main>
-    <div>
-        <div class="toc-nav">
-        <div class="text-center">- Contents - </div>
-            {{ .TableOfContents }}
-        </div>
+    <div class="toc-nav hidden sm:block">
+        <div class="text-center mb-4 mt-8">- Contents - </div>
+        {{ .TableOfContents }}
     </div>
   </div>
-  <style>        
-    @media screen and (min-width: 1400px) {
-        .toc-nav{
-        position: absolute;
-        top: 3.5em;
-        left: 71.2em;
-    }
-    }
-    #TableOfContents{
-        font-weight:300;
-        font-size:smaller;
-        line-height: 1.8em;
-    }
-    #TableOfContents ul {
-        margin-left: 1em;
-    }
-    #TableOfContents li a{
-        padding-left: 1em;
-        border-left: 2px solid #00000000;
-    }
-    #TableOfContents li a.active{
-        padding-left: 1em;
-        font-weight: 600;
-        border-left: 2px solid #f7853a;
-    }
-    #TableOfContents li a:hover{
-        border-left: 2px solid #f7853a;
-        font-weight: 600;
-    }
-  </style>
   <script>
       // Vanilla js ScrollSpy
       (function() {
         'use strict';
         var main = document.querySelector("main")
         var toc = document.querySelector("#TableOfContents")
-        var section = main.querySelectorAll("h2, h3, h4, h5, h6")
+        var section = main.querySelectorAll("h2, h3") // , h4, h5, h6
         var sections = {};
         var i = 0;        
 
@@ -75,17 +82,22 @@
             // 不把它放在外面，是因为图片可能按需加载，导致一开始读取的偏移量是偏小的
             section.forEach(function(e) {
                 // or e.getBoundingClientRect().top
-                sections[e.id] = e.offsetTop;
-                console.log("e", e.offsetTop);
+                sections[(e.id)] = e.offsetTop;
+                // console.log(e.id, e.offsetTop);
             });
             // 如果 + main.clientHeight; 的话，则是底部看到元素就算进入。
             // 否则是等元素向上滚出才算进入。所以这里的 50 实际上是元素的估算高度
             var scrollPosition = main.scrollTop + 50; // + main.clientHeight 
+            // console.log(scrollPosition)
+            var max = 0;
             for (i in sections) {
-                if (sections[i] < scrollPosition) {
-                    console.log("scrollPosition", scrollPosition);
+                if (sections[i] < scrollPosition && sections[i] > max) {
+                    max = sections[i];
                     toc.querySelector('.active')?.setAttribute('class', ' ');
-                    toc.querySelector('a[href*=' + i + ']').setAttribute('class', 'active');                    
+                    toc.querySelector('[href^="#' + i + '"]').setAttribute('class', 'active');                    
+                    // console.log("active", i);
+                    // console.log("scrollPosition",scrollPosition);
+                    // console.log("sections[i]",i);
                 }
             }
         };

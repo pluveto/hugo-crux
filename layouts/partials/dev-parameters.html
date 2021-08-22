@@ -50,7 +50,7 @@
                             <td class="text-right italic pr-2">{{ printf "%#v:" $k }}</td>
                             <td>{{ printf "%#v" $v }}</td>
                         </tr>
-                        {{ end }}
+                        {{- end -}}
                     </table>
                 </td>
             </tr>
@@ -82,13 +82,13 @@
             </tr>
             <tr class="p-2 border-t">
                 <td>.File</td>
-                <td>{{ if .File }}{{ printf "%v" .File }}{{ else}}""{{ end }}</td>
+                <td>{{ if .File }}{{ printf "%v" .File }}{{ else}}""{{- end -}}</td>
             </tr>
             <tr class="p-2 border-t">
                 <td>.File.Dir</td>
-                <td>{{ if .File }}{{ printf "%#v" .File.Dir }}{{ else}}""{{ end }}</td>
+                <td>{{ if .File }}{{ printf "%#v" .File.Dir }}{{ else}}""{{- end -}}</td>
             </tr>
         </tbody>
     </table>
 </div>
-{{ end }}
+{{- end -}}

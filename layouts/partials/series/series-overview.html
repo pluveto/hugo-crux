@@ -1,0 +1,55 @@
+{{ with .Summary }}
+<h2 class="text-xl mb-2 flex items-center">
+    <box-icon name='quote-single-left' type='solid' color='#2edbe3' ></box-icon>
+    <span class="ml-1 pt-1">Summary</span>
+</h2>
+
+<div class="mb-4">
+    {{ .}}
+</div>
+{{- end -}}
+
+<h2 class="text-xl mb-2 flex items-center">
+    <box-icon name='package' color='#ff328b' ></box-icon>
+    <span class="ml-1 pt-1">Contents</span>
+</h2>
+
+{{ $lastPost := index (last 1 .Pages) 0 }}
+
+
+<div class="relative mt-5 text-left">
+                
+
+{{- range .Pages -}}
+    <div class="flex items-center relative">
+        <div class="hidden md:block">
+            <div class="font-bold italic">{{ .Date.Format "2006" }}</div>
+            <div class="md:flex space-x-1 text-xs w-14">
+                <div>{{ .Date.Format "January 2" }}</div>
+            </div>                        
+        </div>
+        
+        <div class="border-r-2 border-black absolute h-full left-1 md:left-20 top-2 z-10">
+            <box-icon type='solid' size="16px" name='circle' style="margin-left: -7px;" class="-top-1 absolute"></box-icon>
+            {{ if eq $lastPost.Permalink .Permalink }} 
+            <!-- last-post -->
+            <box-icon type='solid' size="16px" name='circle' style="margin-left: -7px; bottom: -2px;" class="absolute"></box-icon>
+            {{- end -}}
+
+        </div>
+
+        <a href="{{.Permalink}}" class="block rounded-md hover:shadow p-4 ml-4 md:ml-14">
+            <div class="font-bold">{{.Title}}</div>
+            <div class="italic md:mb-4">Empresa 1</div>
+            <div class="mb-4 mt-2 md:hidden">
+                <div class="font-bold">{{ .Date.Format "2006" }}</div>
+                <div class="text-xs">{{ .Date.Format "January 2" }}</div>
+            </div>
+            <div class="mb-10">
+                {{ .Summary | plainify}}
+            </div>  
+        </a>
+    </div>
+{{- end -}}    
+
+</div>

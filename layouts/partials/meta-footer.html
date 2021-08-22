@@ -1,0 +1,25 @@
+<div class="flex justify-between items-center">                    
+    <div class="tags-container flex ">
+        {{ with .Params.tags }}     
+        <box-icon type='solid' size="sm" name='purchase-tag'></box-icon>
+        <ul id="tags" class="inline-flex">
+            {{- range $index, $value := . -}}
+            <li>
+                {{- if gt $index 0 }},&nbsp;{{ end -}}
+                {{- $tag := $value | printf "/tags/%v" | $.Site.GetPage -}}
+                <a href="{{ $tag.RelPermalink }}">{{ $tag.Title }}</a>                        
+            </li>
+            {{- end -}}
+        </ul>
+           
+    {{- end -}}
+    </div>             
+    
+    {{- if ne .Lastmod .Date -}}
+    <section class="article-lastmod text-sm">
+        <span>
+            更新于 {{ T "article.lastUpdatedOn" }} {{ .Lastmod.Format ( or .Site.Params.dateFormat.lastUpdated "Jan 02, 2006 15:04 MST" ) }}
+        </span>
+    </section>
+    {{- end -}}                    
+</div>

@@ -1,0 +1,33 @@
+{{ define "main" }}
+<div id="app" class="flex flex-col md:flex md:flex-row h-full">
+    {{ partial "sidenav" . }}
+    <main
+      class="flex-grow p-8 md:p-16 overflow-auto flex flex-col"
+      style="background-color: #fff; color: #0a0e14;"
+    >
+        <div class="content flex-1 " style="max-width: 65ch;">
+            <h3 class="section-title mb-6">
+                {{ if eq .Parent (.GetPage "/") }}
+                    {{ T "list.section" }}
+                    <!-- taxi 顶级（ 如 http://localhost:1313/series/） -->            
+                {{ else }}
+                    <a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a> <span class="text-gray-300">/</span>
+                    <!-- Parent 类型为 series -->            
+                {{- end -}}
+            </h3>
+            <div class="prose mb-4">                
+                <h1 >{{ .Title }}</h1>
+            </div>
+             {{ if eq .Parent (.GetPage "/") }}
+                 {{partial "series/series-list" .}}
+             {{ else }}
+                 {{partial "series/series-overview" .}}
+             {{- end -}}                    
+
+        </div>
+        <div class="">
+            {{ partial "copyright" .}}
+        </div>
+    </main>
+  </div>
+{{end}}

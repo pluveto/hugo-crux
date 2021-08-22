@@ -1,6 +1,16 @@
 {{ define "main" }}
-<article class="text-gray-700 sm:mx-12 mb-16">
-    <h1 class="font-bold text-3xl text-gray-700">{{ .Title }}</h1>
-    {{ .Content }}
-</article>
-{{ end }}
+<div id="app" class="flex flex-col md:flex md:flex-row h-full">
+    {{ partial "sidenav" . }}
+    <main
+      class="flex-grow p-8 md:p-16 overflow-auto"
+      style="background-color: #fff; color: #0a0e14;"
+    >
+        <article class="px-6 mb-16 prose text-gray-700 justify-self-center sm:px-4 md:px-0 lg:prose-lg">
+            <h1>{{ .Title }}</h1>
+            {{ .Content }}
+            {{ partial "comments" . }}
+        </article>      
+        {{ partial "copyright" .}}
+    </main>
+  </div>
+{{end}}

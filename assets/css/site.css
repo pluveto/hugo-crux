@@ -1,11 +1,9 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;1,200&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;1,200&display=swap");
 
 html,
 body {
   height: 100%;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 #myCanvas {
@@ -18,24 +16,107 @@ body {
 }
 
 .shadow-title {
-    user-select: none;
-    position: fixed;
-    top: 0;
-    margin-top: 80px;
-    left: 20px;
-    height: 300%;
-    text-align: left;
-    font-family: Muli,sans-serif;
-    -webkit-writing-mode: vertical-lr;
-    writing-mode: vertical-lr;
-    font-size: 14vw;
-    line-height: 1;
-    color: rgba(200,200,200,.1);
-    background: linear-gradient(
-90deg
-,rgba(200,200,200,0),rgba(200,200,200,.1));
-background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 900;    
+  user-select: none;
+  position: fixed;
+  top: 0;
+  margin-top: 80px;
+  left: 20px;
+  height: 300%;
+  text-align: left;
+  font-family: Muli, sans-serif;
+  -webkit-writing-mode: vertical-lr;
+  writing-mode: vertical-lr;
+  font-size: 14vw;
+  line-height: 1;
+  color: rgba(200, 200, 200, 0.1);
+  background: linear-gradient(90deg, rgba(200, 200, 200, 0), rgba(200, 200, 200, 0.1));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+}
+
+.meta li {
+  padding-left: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.meta ul {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.meta li a {
+  text-decoration: none;
+  font-size: small;
+  color: #6b7280;
+}
+
+.meta li a:hover {
+  color: #f7853a;
+}
+
+.meta li::before {
+  content: none !important;
+}
+
+@media screen and (min-width: 0px) {
+  header {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .toc-nav {
+    position: absolute;
+    top: 1.5em;
+    left: 71.2em;
+  }
+}
+
+#TableOfContents {
+  font-weight: 300;
+  font-size: smaller;
+  line-height: 1.8em;
+}
+
+#TableOfContents li {
+  padding-left: 1em;
+}
+
+#TableOfContents li a {
+  padding-left: 1em;
+  border-left: 2px solid #00000000;
+  display: inline-block;
+}
+
+#TableOfContents li a.active {
+  padding-left: 1em;
+  font-weight: 600;
+  border-left: 2px solid #f7853a;
+}
+
+#TableOfContents li a:hover {
+  border-left: 2px solid #f7853a;
+  font-weight: 600;
+}
+
+.archive-list li {
+  line-height: 2em;
+}
+
+
+    
+.container-lg{
+  width: 100%;
+  max-width: 1024px;
+}
+
+.site-navbar #menu .active{
+      color: #eee;
+}
+
+.meta #series a:hover{
+  color: #ff328b
 }
