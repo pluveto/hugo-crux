@@ -23,6 +23,10 @@
                 {{- end -}}
             </div>
         </div>
+
+        {{ if eq .Type "authors" }}
+            {{.Content}}
+        {{ end }}
     
         {{- $subsections := .Sections -}}
         {{- $pages := .Pages | complement $subsections -}}
