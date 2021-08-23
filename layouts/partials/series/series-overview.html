@@ -1,16 +1,17 @@
-{{ with .Summary }}
+{{ with .Content }}
 <h2 class="text-xl mb-2 flex items-center">
-    <box-icon name='quote-single-left' type='solid' color='#2edbe3' ></box-icon>
+    <i class='bx bxs-quote-single-left' style='color:#2edbe3' ></i>
     <span class="ml-1 pt-1">Summary</span>
 </h2>
 
 <div class="mb-4">
-    {{ .}}
+    <article class="prose">
+        {{ .}}
+    </article>
 </div>
 {{- end -}}
-
 <h2 class="text-xl mb-2 flex items-center">
-    <box-icon name='package' color='#ff328b' ></box-icon>
+    <i class='bx bxs-package' style='color:#ff328b'></i>
     <span class="ml-1 pt-1">Contents</span>
 </h2>
 
@@ -30,10 +31,11 @@
         </div>
         
         <div class="border-r-2 border-black absolute h-full left-1 md:left-20 top-2 z-10">
-            <box-icon type='solid' size="16px" name='circle' style="margin-left: -7px;" class="-top-1 absolute"></box-icon>
+            <i class='bx bxs-circle -top-1 absolute' style='margin-left: -7px;' ></i>
             {{ if eq $lastPost.Permalink .Permalink }} 
             <!-- last-post -->
-            <box-icon type='solid' size="16px" name='circle' style="margin-left: -7px; bottom: -2px;" class="absolute"></box-icon>
+            <i class='bx bxs-circle absolute' style='margin-left: -7px; bottom: -2px;'></i>
+
             {{- end -}}
 
         </div>

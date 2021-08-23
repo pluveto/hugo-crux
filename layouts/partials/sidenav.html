@@ -9,7 +9,8 @@
     " src="/pluveto-logo.png" alt="">
     <a class="flex-grow pt-2" href="{{ .Site.BaseURL }}">Less <span class="" style="color:#dd3735">Bug</span></a>    
     <a href="javascript:;" onclick="toggleMobileMenu()" class="w-16 flex justify-end">
-      <box-icon class=" hover:bg-gray-200" name='menu' color='#666' size='32px' ></box-icon>
+      <i class='bx bx-menu hover:bg-gray-200 ' style='color:#666;font-size: 32px' ></i>
+
     </a>
     
   </div>
@@ -156,7 +157,9 @@
     </ul>
   </nav>
   <div class="bottom flex flex-col space-y-2 z-10">
-    <a href="http://github.com/pluveto"><box-icon name='github' type='logo' color='#eee' ></box-icon></a>
-    <box-icon name='rss' type='logo' color='#eee' ></box-icon>
+    <a href="http://github.com/pluveto">    <i class='bx bxl-github' style='color:#eee;font-size: 20px;' ></i></a>
+
+
+    <a href="{{.Site.BaseURL}}index.xml"><i class='bx bx-rss' style='color:#eee;font-size: 20px' ></i></a>
   </div>
 </header>
