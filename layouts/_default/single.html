@@ -5,7 +5,21 @@
       class="flex-grow p-8 md:p-16 overflow-auto"
       style="background-color: #fff; color: #0a0e14;"
     >
-        <article class="px-6 mb-16 prose text-gray-700 justify-self-center sm:px-4 md:px-0 lg:prose-lg">
+    
+        <!-- 这是给 series 用的 -->
+        {{ with .Parent}}
+            <div class="flex items-center mb-4">
+                {{ if eq .Type "series" }}    
+                <i class='bx bxs-package' style='color:#ff328b;font-size: 20px;'></i>                
+                <span id="series" class="inline-flex px-1 pt-1 mr-2">
+                    <a style="text-decoration: none; color: #6b7280;" href="{{ .Page.Permalink }}">{{ .Page.Title }}</a>                
+                </span>
+                <span class="text-gray-300 pt-1.5">/</span>
+                
+                {{- end -}}            
+            </div>
+        {{- end -}}
+        <article class="flex-grow px-6 mb-16 prose text-gray-700 justify-self-center sm:px-4 md:px-0 lg:prose-lg">
             <h1>{{ .Title }}</h1>
 
             <div class="">
@@ -17,14 +31,16 @@
                 
             </div>
 
-            <!-- 这是给 series 用的 -->
-            {{ $permalink := .Permalink}}
+            <!-- series 目录 -->
+            {{ $permalink := .Permalink }}
+            {{ $prev := . }}
+            {{ $next := . }}
             {{ with .Parent}}
             {{ if eq .Type "series" }}    
             <div class="mt-4 p-4 bg-gray-50 rounded-md text-center">
                 
                 <div class="series-title py-8 flex items-center justify-center">
-                    <box-icon name='package' color='#ff328b' ></box-icon>
+                    <i class='bx bxs-package' style='color:#ff328b;font-size: 20px'></i>
                     <span id="series"  class="inline-flex  pt-1 text-xl font-light">
                         <a style="text-decoration: none"  href="{{ .Page.Permalink }}">{{ .Page.Title }}</a>
                     </span>
@@ -36,14 +52,25 @@
 
                 <div class="text-center">
                                 
-                
+                    {{ $prevFlag := true }} <!-- 用于获取本文的上一篇 -->
+                    {{ $nextFlag := false }}  <!-- 用于获取本文的下一篇 --> 
                 {{- range .Pages -}}
-                        <a href="{{.Permalink}}" class="block rounded-md p-4 mx-4 hover:bg-white" style="text-decoration: none;">
-                            {{ if eq $permalink .Permalink}}
-                            <div class="text-base font-bold" >{{.Title}}</div>
+                        <a href="{{.Permalink}}" class="block rounded-md p-4 mx-4 hover:bg-gray-100" style="text-decoration: none;">
+                            {{ if eq $permalink .Permalink}}                            
+                                {{ $nextFlag = true }}
+                                {{ $prevFlag = false }}
+                                <div class="text-base font-bold" >{{.Title}}</div>
                             {{ else }}
-                            <div class="text-base font-light">{{.Title}}</div>
+                                {{ if $nextFlag }}
+                                    {{ $next = . }}
+                                {{ $nextFlag = false}}
+                                {{ end }}
+                                <div class="text-base font-light">{{.Title}}</div>
                             {{- end -}}
+
+                            {{ if $prevFlag }}
+                                {{ $prev = . }}
+                            {{ end }}                            
                             <div class="text-xs text-gray-300">{{ .Date.Format "2006/1/2" }} 发布</div>
                             <div class="mb-4 mt-2 md:hidden">
                                 <div class="font-bold hidden">{{ .Date.Format "2006" }}</div>
@@ -57,13 +84,50 @@
 
             </div>
             {{- end -}}
-            {{- end -}}            
+            {{- end -}}          
+            {{ if ne .Type "series"}}
+                {{ $prev = .PrevInSection }}
+                {{ $next = .NextInSection}}
+            {{ end }}
+            <!-- 上一页和下一页 -->
+            <div class="mt-4 rounded-md text-center flex">
+                {{ if and $prev (ne $prev .)}}       
+                {{ with $prev }}
+                <a href="{{.Permalink}}" class="no-underline block flex-1 bg-gray-50 hover:bg-gray-100">
+                    <div class="flex items-center px-2">
+                        <i class='bx bx-left-arrow-alt' style='color:#9ca3af' ></i>
+                        <span class="text-sm text-gray-400 pt-1">Prev</span>   
+                    </div>
+                    
+
+                    <div class="text-base pb-6 font-light">{{ .Title }} </div>
+                    
+                </a>
+                {{ end }}
+                {{ end }}
+
+                {{ if and $next (ne $next .)}}                
+                {{ with $next }}
+                <a href="{{.Permalink}}" class="no-underline block flex-1 bg-gray-50 hover:bg-gray-100">
+                    
+                    <div class="flex justify-end items-center px-2">
+                        <span class="text-sm text-gray-400 pt-1">Next</span>        
+                        <i class='bx bx-left-arrow-alt bx-rotate-180' style='color:#9ca3af' ></i>        
+                    </div>
+                    
+                    
+                    <div class="text-base pb-6 font-light">{{ .Title }} </div>
+                    
+                </a>
+                {{ end }}
+                {{ end }}
+            </div>
 
             {{ partial "comments" . }}
         </article>
         {{ partial "copyright" .}}
     </main>
-    <div class="toc-nav hidden sm:block">
+    <div class="toc-nav hidden md:block">
         <div class="text-center mb-4 mt-8">- Contents - </div>
         {{ .TableOfContents }}
     </div>
