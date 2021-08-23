@@ -61,12 +61,6 @@ body {
   content: none !important;
 }
 
-@media screen and (min-width: 0px) {
-  header {
-    display: none;
-  }
-}
-
 @media screen and (min-width: 1400px) {
   .toc-nav {
     position: absolute;
@@ -119,4 +113,15 @@ body {
 
 .meta #series a:hover{
   color: #ff328b
+}
+
+article pre{
+  background-color: #f7f7f7 !important;
+  border: 1px solid #f7f7f7;
+}
+
+.alert-info {
+  padding: 1em;
+  border-left: 2px solid #98FFC1;
+  background: #EBFFF3;
 }
