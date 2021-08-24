@@ -9,19 +9,23 @@
         <div class="posts flex-1 px-6 mb-16 justify-self-center sm:px-4 md:px-0 lg:prose-lg" style="max-width: 65ch;">
           <div class="mb-4">
             <div class="text-3xl">Posts</div>
-            <div>
+            <div>           
                 {{ range (.Site.RegularPages.GroupByDate "2006") }}
-                <h3>{{ .Key }}</h3>
-    
-                <ul class="archive-list mb-4">
-                    {{ range (where .Pages "Type" "posts") }}
-                        <li>
-                            <span style="color: #bbb; width: 2em; display: inline-block;">{{ .PublishDate.Format "1/2" }}</span>
-                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-                        </li>
-                    {{- end -}}
-                </ul>
-                  {{- end -}}
+
+                  {{ $posts:= (where .Pages "Type" "posts")}}
+
+                  {{ if $posts }}                
+                  <h3>{{ .Key }}</h3>    
+                  <ul class="archive-list mb-4">
+                      {{ range (where .Pages "Type" "posts") }}
+                          <li>
+                              <span style="color: #bbb; width: 2em; display: inline-block;">{{ .PublishDate.Format "1/2" }}</span>
+                              <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                          </li>
+                      {{- end -}}
+                  </ul>
+                  {{ end }}
+                {{- end -}}
             </div>
           </div>
         </div> 
@@ -60,7 +64,12 @@
             <div class="text-3xl">Series</div>
             <div>
               <ul class="archive-list">
+                {{ if not (where .Pages "Type" "series") }}
+                  No series
+                {{- end -}}
+                  
                 {{ range .Site.Sections }}
+
                   {{ range (where .Pages "Type" "series") }}
                       <li>                        
                           <a href="{{ .RelPermalink }}">{{ .Title }}</a>

@@ -40,14 +40,18 @@
 
         </div>
 
-        <a href="{{.Permalink}}" class="block rounded-md hover:shadow p-4 ml-4 md:ml-14">
+        <a href="{{.Permalink}}" class="block rounded-md hover:shadow p-4 ml-4 md:ml-14 w-full">
             <div class="font-bold">{{.Title}}</div>
-            <div class="italic md:mb-4">Empresa 1</div>
+            <div class="italic md:mb-4">
+                {{ range (last 2 (split .Permalink "/"))}}
+                {{.}}
+                {{ end}}
+            </div>
             <div class="mb-4 mt-2 md:hidden">
                 <div class="font-bold">{{ .Date.Format "2006" }}</div>
                 <div class="text-xs">{{ .Date.Format "January 2" }}</div>
             </div>
-            <div class="mb-10">
+            <div class="mb-10 text-gray-500">
                 {{ .Summary | plainify}}
             </div>  
         </a>

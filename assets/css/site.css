@@ -193,3 +193,27 @@ article pre {
   flex-shrink: 0;
   user-select: none;
 }
+
+.article-body a {
+  text-decoration: underline dashed #666;
+  text-underline-offset: 4px;
+}
+.article-body a:hover {
+  color: #00427c;
+  text-decoration: underline dashed #00427c;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+.article-body a:after {
+  display: inline-block;
+  background: transparent
+    url(/img/external.svg) 0 0
+    no-repeat;
+  background-size: 16px;
+  content: "";
+  height: 16px;
+  margin-left: 3px;
+  width: 16px;
+}
+
+::selection { background: #E7F8FB; }

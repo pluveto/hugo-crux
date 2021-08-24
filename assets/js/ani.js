@@ -107,7 +107,7 @@ window.onload = function () {
                 return delta
             }
         }
-        const vRange = () => rand(-0.1, 0.1)
+        const vRange = () => rand(-0.05, 0.05)
         const posRange = () => rand(-300, 300)
         var m = [rand(0.02, 0.2), rand(0.02, 0.2), rand(0.02, 0.2)]
         var r = [(m[0]) * 50, (m[1]) * 50, (m[2]) * 50]
