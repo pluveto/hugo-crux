@@ -8,15 +8,15 @@
         </ul>              
     {{- end -}}
     
-    <i class='bx bxs-time-five' style='color:#3a8cd6;font-size: 20px' ></i>
-    <div class="px-1 pt-1 text-gray-500 mr-2" style="font-size: small;">
     {{ if not .Date.IsZero }}
+    <i class='bx bxs-time-five' style='color:#3a8cd6;font-size: 20px' ></i>
+    <div class="px-1 pt-1 text-gray-500 mr-2" style="font-size: small;">    
             <time class="article-time--published">
                 {{- .Date.Format (or .Site.Params.dateFormat.published "Jan 02, 2006") -}}
-            </time>
-    {{- end}} 
+            </time>    
     发布
-    </div>                    
+    </div>
+    {{- end}}            
     
     {{ with .Params.categories }}
         <i class='bx bxs-folder-open' style='color:#ffca00;font-size: 20px' ></i>
