@@ -1,8 +1,8 @@
 {{ define "main" }}
 
-<div id="app" class="flex flex-col h-full  select-none">
-    <header class="flex flex-col p-16 md:p-32">
-    <div class="text-2xl">
+<div id="app" class="flex flex-col h-full select-none" style="background: #00010a;">
+    <header class="flex flex-col p-16 md:p-32" style="z-index: 2;">
+    <div class="text-2xl" style="color: #eee;">
         <a href="{{ .Site.BaseURL }}">Less <span class="" style="color:#dd3735">Bug</span></a>    
     </div>
     <ul class="flex font-light" style="color: #b3b1ad;">
@@ -13,9 +13,9 @@
         {{- end -}}
     </ul>
     </header>
-    <main class="flex-grow p-16 md:p-32">
+    <main class="flex-grow p-16 md:p-32" style="z-index: 1;">
     <canvas id="myCanvas"></canvas>
-    <script src="http://paperjs.org/assets/js/paper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.15/paper-core.min.js" integrity="sha512-n8kxMM6jgawwNHl1HJmOXz+l8bMYaq0SrYrbCijlUnUUNXuD4ajzKmdXSTFarH3PViz54jfiSNUUAfTOhIDmRg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {{ $js := resources.Get "js/ani.js" }}
 
     <script

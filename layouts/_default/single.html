@@ -1,172 +1,185 @@
 {{ define "main" }}
 <div id="app" class="flex flex-col md:flex md:flex-row h-full">
-    {{ partial "sidenav" . }}
-    <main
-      class="flex-grow p-8 md:p-16 overflow-auto"
-      style="background-color: #fff; color: #0a0e14;"
-    >
-    
-        <!-- 这是给 series 用的 -->
-        {{ with .Parent}}
-            <div class="flex items-center mb-4">
-                {{ if eq .Type "series" }}    
-                <i class='bx bxs-package' style='color:#ff328b;font-size: 20px;'></i>                
-                <span id="series" class="inline-flex px-1 pt-1 mr-2">
-                    <a style="text-decoration: none; color: #6b7280;" href="{{ .Page.Permalink }}">{{ .Page.Title }}</a>                
-                </span>
-                <span class="text-gray-300 pt-1.5">/</span>
-                
-                {{- end -}}            
-            </div>
-        {{- end -}}
-        <article class="flex-grow px-6 mb-16 prose text-gray-700 justify-self-center sm:px-4 md:px-0 lg:prose-lg">
-            <h1>{{ .Title }}</h1>
+  {{ partial "sidenav" . }}
+  <main
+    class="flex-grow p-8 md:p-16 overflow-auto"
+    style="background-color: #fff; color: #0a0e14;"
+  >
+    <!-- 这是给 series 用的 -->
+    {{ with .Parent}}
+    <div class="flex items-center mb-4">
+      {{ if eq .Type "series" }}
+      <i class="bx bxs-package" style="color: #ff328b; font-size: 20px;"></i>
+      <span id="series" class="inline-flex px-1 pt-1 mr-2">
+        <a
+          style="text-decoration: none; color: #6b7280;"
+          href="{{ .Page.Permalink }}"
+        >
+          {{ .Page.Title }}
+        </a>
+      </span>
+      <span class="text-gray-300 pt-1.5">/</span>
 
-            <div class="">
-                {{ partial "meta-header" .}}
-
-                {{ .Content }}
-                
-                {{ partial "meta-footer" .}}
-                
-            </div>
-
-            <!-- series 目录 -->
-            {{ $permalink := .Permalink }}
-            {{ $prev := . }}
-            {{ $next := . }}
-            {{ with .Parent}}
-            {{ if eq .Type "series" }}    
-            <div class="mt-4 p-4 bg-gray-50 rounded-md text-center">
-                
-                <div class="series-title py-8 flex items-center justify-center">
-                    <i class='bx bxs-package' style='color:#ff328b;font-size: 20px'></i>
-                    <span id="series"  class="inline-flex  pt-1 text-xl font-light">
-                        <a style="text-decoration: none"  href="{{ .Page.Permalink }}">{{ .Page.Title }}</a>
-                    </span>
-                </div>
-                
-
-                {{ $lastPost := index (last 1 .Pages) 0 }}
-
-
-                <div class="text-center">
-                                
-                    {{ $prevFlag := true }} <!-- 用于获取本文的上一篇 -->
-                    {{ $nextFlag := false }}  <!-- 用于获取本文的下一篇 --> 
-                {{- range .Pages -}}
-                        <a href="{{.Permalink}}" class="block rounded-md p-4 mx-4 hover:bg-gray-100" style="text-decoration: none;">
-                            {{ if eq $permalink .Permalink}}                            
-                                {{ $nextFlag = true }}
-                                {{ $prevFlag = false }}
-                                <div class="text-base font-bold" >{{.Title}}</div>
-                            {{ else }}
-                                {{ if $nextFlag }}
-                                    {{ $next = . }}
-                                {{ $nextFlag = false}}
-                                {{ end }}
-                                <div class="text-base font-light">{{.Title}}</div>
-                            {{- end -}}
-
-                            {{ if $prevFlag }}
-                                {{ $prev = . }}
-                            {{ end }}                            
-                            <div class="text-xs text-gray-300">{{ .Date.Format "2006/1/2" }} 发布</div>
-                            <div class="mb-4 mt-2 md:hidden">
-                                <div class="font-bold hidden">{{ .Date.Format "2006" }}</div>
-                                
-                            </div>
-                        </a>
-                {{- end -}}    
-                
-                </div>
-                                
-
-            </div>
-            {{- end -}}
-            {{- end -}}          
-            {{ if ne .Type "series"}}
-                {{ $prev = .PrevInSection }}
-                {{ $next = .NextInSection}}
-            {{ end }}
-            <!-- 上一页和下一页 -->
-            <div class="mt-4 rounded-md text-center flex">
-                {{ if and $prev (ne $prev .)}}       
-                {{ with $prev }}
-                <a href="{{.Permalink}}" class="no-underline block flex-1 bg-gray-50 hover:bg-gray-100">
-                    <div class="flex items-center px-2">
-                        <i class='bx bx-left-arrow-alt' style='color:#9ca3af' ></i>
-                        <span class="text-sm text-gray-400 pt-1">Prev</span>   
-                    </div>
-                    
-
-                    <div class="text-base pb-6 font-light">{{ .Title }} </div>
-                    
-                </a>
-                {{ end }}
-                {{ end }}
-
-                {{ if and $next (ne $next .)}}                
-                {{ with $next }}
-                <a href="{{.Permalink}}" class="no-underline block flex-1 bg-gray-50 hover:bg-gray-100">
-                    
-                    <div class="flex justify-end items-center px-2">
-                        <span class="text-sm text-gray-400 pt-1">Next</span>        
-                        <i class='bx bx-left-arrow-alt bx-rotate-180' style='color:#9ca3af' ></i>        
-                    </div>
-                    
-                    
-                    <div class="text-base pb-6 font-light">{{ .Title }} </div>
-                    
-                </a>
-                {{ end }}
-                {{ end }}
-            </div>
-
-            {{ partial "comments" . }}
-        </article>
-        {{ partial "copyright" .}}
-    </main>
-    <div class="toc-nav hidden md:block">
-        <div class="text-center mb-4 mt-8">- Contents - </div>
-        {{ .TableOfContents }}
+      {{- end -}}
     </div>
+    {{- end -}}
+    <article
+      class="flex-grow px-6 mb-16 prose text-gray-700 justify-self-center sm:px-4 md:px-0 lg:prose-lg"
+    >
+      <h1>{{ .Title }}</h1>
+
+      <div class="">
+        {{ partial "meta-header" .}} {{ .Content }} {{ partial "meta-footer" .}}
+      </div>
+
+      <!-- series 目录 -->
+      {{ $permalink := .Permalink }} {{ $prev := . }} {{ $next := . }} {{ with
+      .Parent}} {{ if eq .Type "series" }}
+      <div class="mt-4 p-4 bg-gray-50 rounded-md text-center">
+        <div class="series-title py-8 flex items-center justify-center">
+          <i
+            class="bx bxs-package"
+            style="color: #ff328b; font-size: 20px;"
+          ></i>
+          <span id="series" class="inline-flex pt-1 text-xl font-light">
+            <a style="text-decoration: none;" href="{{ .Page.Permalink }}">
+              {{ .Page.Title }}
+            </a>
+          </span>
+        </div>
+
+        {{ $lastPost := index (last 1 .Pages) 0 }}
+
+        <div class="text-center">
+          {{ $prevFlag := true }}
+          <!-- 用于获取本文的上一篇 -->
+          {{ $nextFlag := false }}
+          <!-- 用于获取本文的下一篇 -->
+          {{- range .Pages -}}
+          <a
+            href="{{.Permalink}}"
+            class="block rounded-md p-4 mx-4 hover:bg-gray-100"
+            style="text-decoration: none;"
+          >
+            {{ if eq $permalink .Permalink}} {{ $nextFlag = true }} {{ $prevFlag
+            = false }}
+            <div class="text-base font-bold">{{.Title}}</div>
+            {{ else }} {{ if $nextFlag }} {{ $next = . }} {{ $nextFlag = false}}
+            {{ end }}
+            <div class="text-base font-light">{{.Title}}</div>
+            {{- end -}} {{ if $prevFlag }} {{ $prev = . }} {{ end }}
+            <div class="text-xs text-gray-300">
+              {{ .Date.Format "2006/1/2" }} 发布
+            </div>
+            <div class="mb-4 mt-2 md:hidden">
+              <div class="font-bold hidden">{{ .Date.Format "2006" }}</div>
+            </div>
+          </a>
+          {{- end -}}
+        </div>
+      </div>
+      {{- end -}} {{- end -}} {{ if ne .Type "series"}} {{ $prev =
+      .PrevInSection }} {{ $next = .NextInSection}} {{ end }}
+      <!-- 上一页和下一页 -->
+      <div class="mt-4 rounded-md text-center flex">
+        {{ if and $prev (ne $prev .)}} {{ with $prev }}
+        <a
+          href="{{.Permalink}}"
+          class="no-underline block flex-1 bg-gray-50 hover:bg-gray-100"
+        >
+          <div class="flex items-center px-2">
+            <i class="bx bx-left-arrow-alt" style="color: #9ca3af;"></i>
+            <span class="text-sm text-gray-400 pt-1">Prev</span>
+          </div>
+
+          <div class="text-base pb-6 font-light">{{ .Title }}</div>
+        </a>
+        {{ end }} {{ end }} {{ if and $next (ne $next .)}} {{ with $next }}
+        <a
+          href="{{.Permalink}}"
+          class="no-underline block flex-1 bg-gray-50 hover:bg-gray-100"
+        >
+          <div class="flex justify-end items-center px-2">
+            <span class="text-sm text-gray-400 pt-1">Next</span>
+            <i
+              class="bx bx-left-arrow-alt bx-rotate-180"
+              style="color: #9ca3af;"
+            ></i>
+          </div>
+
+          <div class="text-base pb-6 font-light">{{ .Title }}</div>
+        </a>
+        {{ end }} {{ end }}
+      </div>
+
+      {{ partial "comments" . }}
+    </article>
+    {{ partial "copyright" .}}
+  </main>
+  <div class="toc-nav hidden md:block">
+    <div class="text-center mb-4 mt-8">- Contents -</div>
+    {{ .TableOfContents }}
   </div>
-  <script>
-      // Vanilla js ScrollSpy
-      (function() {
-        'use strict';
-        var main = document.querySelector("main")
-        var toc = document.querySelector("#TableOfContents")
-        var section = main.querySelectorAll("h2, h3") // , h4, h5, h6
-        var sections = {};
-        var i = 0;        
+</div>
+<style>
+  article.prose p a {
+    text-decoration: underline dashed #666;
+    text-underline-offset: 4px;
+  }
+  article.prose p a:hover{
+    color: #00427c;
+    text-decoration: underline dashed #00427c;    
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+  article.prose p a:after {
+    display: inline-block;
+    background: transparent
+      url(https://developer.mozilla.org/static/media/external.e091ac5d.svg) 0 0
+      no-repeat;
+    background-size: 16px;
+    content: '';
+    height: 16px;
+    margin-left: 3px;
+    width: 16px;
+  }
+</style>
+<script>
+  // Vanilla js ScrollSpy
+  ;(function () {
+    'use strict'
+    var main = document.querySelector('main')
+    var toc = document.querySelector('#TableOfContents')
+    var section = main.querySelectorAll('h2, h3') // , h4, h5, h6
+    var sections = {}
+    var i = 0
 
-        main.onscroll = function() {
-            // 不把它放在外面，是因为图片可能按需加载，导致一开始读取的偏移量是偏小的
-            section.forEach(function(e) {
-                // or e.getBoundingClientRect().top
-                sections[(e.id)] = e.offsetTop;
-                // console.log(e.id, e.offsetTop);
-            });
-            // 如果 + main.clientHeight; 的话，则是底部看到元素就算进入。
-            // 否则是等元素向上滚出才算进入。所以这里的 50 实际上是元素的估算高度
-            var scrollPosition = main.scrollTop + 50; // + main.clientHeight 
-            // console.log(scrollPosition)
-            var max = 0;
-            for (i in sections) {
-                if (sections[i] < scrollPosition && sections[i] > max) {
-                    max = sections[i];
-                    toc.querySelector('.active')?.setAttribute('class', ' ');
-                    toc.querySelector('[href^="#' + i + '"]').setAttribute('class', 'active');                    
-                    // console.log("active", i);
-                    // console.log("scrollPosition",scrollPosition);
-                    // console.log("sections[i]",i);
-                }
-            }
-        };
-        main.onscroll()
-      })();
-
-  </script>
+    main.onscroll = function () {
+      // 不把它放在外面，是因为图片可能按需加载，导致一开始读取的偏移量是偏小的
+      section.forEach(function (e) {
+        // or e.getBoundingClientRect().top
+        sections[e.id] = e.offsetTop
+        // console.log(e.id, e.offsetTop);
+      })
+      // 如果 + main.clientHeight; 的话，则是底部看到元素就算进入。
+      // 否则是等元素向上滚出才算进入。所以这里的 50 实际上是元素的估算高度
+      var scrollPosition = main.scrollTop + 50 // + main.clientHeight
+      // console.log(scrollPosition)
+      var max = 0
+      for (i in sections) {
+        if (sections[i] < scrollPosition && sections[i] > max) {
+          max = sections[i]
+          toc.querySelector('.active')?.setAttribute('class', ' ')
+          toc
+            .querySelector('[href^="#' + i + '"]')
+            .setAttribute('class', 'active')
+          // console.log("active", i);
+          // console.log("scrollPosition",scrollPosition);
+          // console.log("sections[i]",i);
+        }
+      }
+    }
+    main.onscroll()
+  })()
+</script>
 {{end}}

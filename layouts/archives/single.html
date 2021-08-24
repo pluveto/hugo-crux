@@ -48,12 +48,29 @@
               {{- end -}}
               {{ range .Site.Taxonomies.categories.ByCount }}                  
                   <a href="{{ .Page.RelPermalink }}" class="flex items-center hover:shadow px-2 rounded-md min-w-16 text-center font_size_{{ .Count }}">
-                    <box-icon name='folder-open' type='solid' color='#ffca00' ></box-icon>
+                    <i class='bx bxs-folder-open' style='color:#ffca00' ></i>
+                    
                     <ul id="categories"  class="inline-flex pt-1">{{ .Page.Title }}</ul><small>({{ .Count }})</small>
                   </a>
               {{- end -}} 
             </div>
-          </div>       
+          </div>     
+          
+          <div class="mb-4">
+            <div class="text-3xl">Series</div>
+            <div>
+              <ul class="archive-list">
+                {{ range .Site.Sections }}
+                  {{ range (where .Pages "Type" "series") }}
+                      <li>                        
+                          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                      </li>
+                  {{- end -}}
+                {{ end }}                
+              </ul>              
+            </div>
+          </div>
+
         </div>    
       </div>      
       {{ partial "copyright" .}}

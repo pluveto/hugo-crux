@@ -1,37 +1,74 @@
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{{ block "title" . }}
-    {{- .Title }} - {{ .Site.Title -}}
-    {{- end -}}</title>
-    {{- if .Description }}
-    <meta name="description" content="{{ .Description }}" />
-    {{ end -}}
-    {{- if .Keywords }}
-    <meta name="keywords" content="{{ delimit .Keywords "," }}" />
-    {{ end -}}
-    {{- if .Params.Author }}
-    <meta name="author" content="{{ .Params.Author}}" />
-    {{ end -}}
-    {{ hugo.Generator }}
-    {{- $styles := resources.Get "css/styles.css" | postCSS (dict "config" "./assets/css/postcss.config.js") -}}
-    {{- if .Site.IsServer }}
-    <link rel="stylesheet" href="{{ $styles.RelPermalink }}">
-    {{ else }}
-        {{- $styles := $styles| minify | fingerprint | resources.PostProcess -}}
-    <link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}">
-    {{ end -}}
-    {{- $siteStyle := resources.Get "css/site.css" | minify | fingerprint -}}
-    <link rel="stylesheet" href="{{ $siteStyle.Permalink }}" integrity="{{ $styles.Data.Integrity }}">   
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>
+  {{ block "title" . }} {{- .Title }} - {{ .Site.Title -}} {{- end -}}
+</title>
+{{- if .Description }}
+<meta name="description" content="{{ .Description }}" />
+{{ end -}} {{- if .Keywords }} <meta name="keywords" content="{{ delimit
+.Keywords "," }}" /> {{ end -}} {{- if .Params.Author }}
+<meta name="author" content="{{ .Params.Author}}" />
+{{ end -}} {{ hugo.Generator }} {{- $styles := resources.Get "css/styles.css" |
+postCSS (dict "config" "./assets/css/postcss.config.js") -}}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300;400;500&family=WindSong:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.9/css/boxicons.min.css">
-    
-    {{ template "_internal/opengraph.html" . }}
+{{- if .Site.IsServer }}
+<link rel="stylesheet" href="{{ $styles.RelPermalink }}" />
+{{ else }} {{- $styles := $styles| minify | fingerprint | resources.PostProcess -}}
+<link
+  rel="stylesheet"
+  href="{{ $styles.Permalink }}"
+  integrity="{{ $styles.Data.Integrity }}"
+/>
+{{ end -}} {{- $siteStyle := resources.Get "css/site.css" | minify | fingerprint
+-}}
+<link
+  rel="stylesheet"
+  href="{{ $siteStyle.Permalink }}"
+  integrity="{{ $styles.Data.Integrity }}"
+/>
 
-    
-    {{ partial "busuanzi.html" . }}
-    {{ partial "icon.html"}}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300;400;500&family=WindSong:wght@500&display=swap"
+  rel="stylesheet"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/boxicons@2.0.9/css/boxicons.min.css"
+/>
 
-    <link rel="alternate" type="application/atom+xml" href="{{.Site.BaseURL}}index.xml" title="{{ .Site.Title }}">
+{{ template "_internal/opengraph.html" . }}
+
+{{ $siteJs := resources.Get "js/site.js" }}
+<script type="text/javascript" src="{{ $siteJs.RelPermalink }}"></script>
+
+{{ partial "busuanzi.html" . }} {{ partial "icon.html"}}
+
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="{{.Site.BaseURL}}index.xml"
+  title="{{ .Site.Title }}"
+/>
+<style>
+  @font-face {
+    font-family: 'Cascadia Code';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Cascadia Code'), url('/font/CascadiaCode.woff2');
+  }
+  .prose pre code {
+    font-family: 'Cascadia Code', monospace, consolas !important;
+    font-size: 13px !important;
+  }
+  .prose pre code > * {
+    line-height: 0.5;
+  }
+  .prose code {
+    font-family: 'Cascadia Code';
+  }
+  .toc-nav {
+    min-width: 13em;
+  }
+</style>
