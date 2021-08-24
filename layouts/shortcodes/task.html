@@ -1,0 +1,10 @@
+<div >
+<label class="completed {{.Get "completed"}}">
+{{if eq (.Get "completed") "true"}}
+<input type="checkbox" disabled checked />
+{{else}}
+<input type="checkbox" disabled/>
+{{- end -}}
+</label>
+<label >{{.Inner}}</label>
+</div>

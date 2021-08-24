@@ -1,0 +1,13 @@
+{{$expandMessage := "Expand-title"}}
+<div class="expand border p-4">
+  <div class="expand-label select-none" style="cursor: pointer;" onclick="toggleExpand(this)">
+    <i class="icon bx bx-chevron-right"></i>
+    <span>
+      {{ if .IsNamedParams }}{{.Get "default" | default
+      $expandMessage}}{{else}}{{.Get 0 | default $expandMessage}}{{end}}
+    </span>
+  </div>
+  <div class="expand-content" style="display: none;">
+    <p>{{.Inner | safeHTML }}</p>
+  </div>
+</div>
