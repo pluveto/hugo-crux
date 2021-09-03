@@ -6,7 +6,7 @@
       style="background-color: #fff; color: #0a0e14;"
     >
       <div class="content flex flex-col md:flex-row"> 
-        <div class="posts flex-1 px-6 mb-16 justify-self-center sm:px-4 md:px-0 lg:prose-lg" style="max-width: 65ch;">
+        <div class="posts flex-1 px-6 mb-16 justify-self-center sm:px-4 md:px-0 " style="max-width: 65ch;">
           <div class="mb-4">
             <div class="text-3xl">Posts</div>
             <div>           
@@ -19,7 +19,7 @@
                   <ul class="archive-list mb-4">
                       {{ range (where .Pages "Type" "posts") }}
                           <li>
-                              <span style="color: #bbb; width: 2em; display: inline-block;">{{ .PublishDate.Format "1/2" }}</span>
+                              <span style="color: #bbb; width: 2.5em; display: inline-block;">{{ .PublishDate.Format "1/2" }}</span>
                               <a href="{{ .RelPermalink }}">{{ .Title }}</a>
                           </li>
                       {{- end -}}
@@ -29,15 +29,15 @@
             </div>
           </div>
         </div> 
-        <div class="tax">
+        <div class="tax" style="max-width: 240px; ">
           <div class="mb-8">
             <div class="text-3xl">Tags</div>
-            <div class="flex space-x-2">              
+            <div class="flex flex-wrap">              
               {{ if not .Site.Taxonomies.tags}}
               No tags
               {{- end -}}
               {{ range .Site.Taxonomies.tags.ByCount }}
-                  <a href="{{ .Page.RelPermalink }}" class="bg-gray-200 px-2 py-1 rounded-md min-w-16 text-center font_size_{{ .Count }}">
+                  <a href="{{ .Page.RelPermalink }}" class="mr-2 mb-2 whitespace-nowrap bg-gray-100 hover:shadow px-2 py-1 rounded-md min-w-16 text-center font_size_{{ .Count }}">
                       {{ .Page.Title }} <small>({{ .Count }})</small>
                   </a>
               {{- end -}} 
@@ -46,12 +46,12 @@
           
           <div class="mb-8">
             <div class="text-3xl">Categories</div>
-            <div class="flex space-x-2">              
+            <div class="flex flex-wrap">              
               {{ if not .Site.Taxonomies.categories}}
               No categories
               {{- end -}}
               {{ range .Site.Taxonomies.categories.ByCount }}                  
-                  <a href="{{ .Page.RelPermalink }}" class="flex items-center hover:shadow px-2 rounded-md min-w-16 text-center font_size_{{ .Count }}">
+                  <a href="{{ .Page.RelPermalink }}" class="whitespace-nowrap mr-2 flex items-center hover:shadow px-2 rounded-md min-w-16 text-center font_size_{{ .Count }}">
                     <i class='bx bxs-folder-open' style='color:#ffca00' ></i>
                     
                     <ul id="categories"  class="inline-flex pt-1">{{ .Page.Title }}</ul><small>({{ .Count }})</small>
@@ -64,10 +64,7 @@
             <div class="text-3xl">Series</div>
             <div>
               <ul class="archive-list">
-                {{ if not (where .Pages "Type" "series") }}
-                  No series
-                {{- end -}}
-                  
+
                 {{ range .Site.Sections }}
 
                   {{ range (where .Pages "Type" "series") }}

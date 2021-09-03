@@ -6,3 +6,5 @@ function toggleExpand(who) {
     console.log(next.style.display)
     who.querySelector(".icon").classList.toggle('bx-rotate-90')
 }
+
+

@@ -24,14 +24,14 @@
     </div>
     {{- end -}}
     <article
-      class="flex-grow px-6 mb-16 prose text-gray-700 justify-self-center sm:px-4 md:px-0 lg:prose-lg"
+      class="flex-grow px-0 md:px-6 mb-16 prose text-gray-700 justify-self-center sm:px-4 md:px-0 "
     >
       <h1>{{ .Title }}</h1>
-      {{ partial "meta-header" .}}
+      {{ partial "meta-header" . }}
       <div class="article-body">
         {{ .Content }} 
       </div>
-      {{ partial "meta-footer" .}}
+      {{ partial "meta-footer" . }}
       <!-- series 目录 -->
       {{ $permalink := .Permalink }} {{ $prev := . }} {{ $next := . }} {{ with
       .Parent}} {{ if eq .Type "series" }}

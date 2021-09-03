@@ -1,13 +1,13 @@
 <div class="flex justify-between items-center">                    
-    <div class="tags-container flex ">
+    <div class="tags-container flex items-center">
         {{ with .Params.tags }}     
         <i class='bx bxs-purchase-tag'></i>
-        <ul id="tags" class="inline-flex">
+        <ul  style="all:unset" id="tags" class="inline-flex">
             {{- range $index, $value := . -}}
-            <li>
+            <li style="all:unset" >
                 {{- if gt $index 0 }},&nbsp;{{ end -}}
                 {{- $tag := $value | printf "/tags/%v" | $.Site.GetPage -}}
-                <a href="{{ $tag.RelPermalink }}">{{ $tag.Title }}</a>                        
+                <a class="ml-1" style="all:unset;    font-size: smaller;"  href="{{ $tag.RelPermalink }}">{{ $tag.Title }}</a>                        
             </li>
             {{- end -}}
         </ul>
