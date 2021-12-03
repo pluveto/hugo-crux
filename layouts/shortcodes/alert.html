@@ -16,7 +16,7 @@
     </svg>
   </div>
   <div class="alert-message">
-	  {{- .Inner -}}
+	  {{- .Inner | markdownify -}}
   </div>
 </div>
 {{ end }}
@@ -38,7 +38,7 @@
     </svg>
   </div>
   <div class="alert-message">
-	  {{- .Inner -}}
+	  {{- .Inner | markdownify -}}
   </div>
 </div>
 {{ end }}
@@ -60,7 +60,7 @@
     </svg>
   </div>
   <div class="alert-message">
-	  {{- .Inner -}}
+	  {{- .Inner | markdownify -}}
   </div>
 </div>
 {{ end }}
@@ -82,7 +82,7 @@
     </svg>
   </div>
   <div class="alert-message">
-	  {{- .Inner -}}
+	  {{- .Inner | markdownify -}}
   </div>
 </div>
 {{ end }}
