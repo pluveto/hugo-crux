@@ -1,167 +1,74 @@
 <script>
+  window.MathJax = {
+    loader: {
+      load: [
+        /*'ui/safe', 'a11y/semantic-enrich',*/
+      ],
+    },
+    tex: {
+      maxBuffer: 10 * 1024,
+      displayMath: [
+        ["$$\n", "\n$$"],
+        ["$$\r\n", "\r\n$$"],
+      ],
+      inlineMath: [
+        ["$", "$"],
+        ["$$", "$$"],
+      ],
+      processEscapes: true,
+      packages: {
+        "[+]": [
+          "noundefined",
+          "autoload",
+          "ams",
+          "physics",
+          "textmacros",
+          "xypic",
+        ],
+      },
+      tags: "all",
+      // function called when TeX syntax errors occur
+      formatError: (jax, err) => {
+        var message = err.message.replace(/\n.*/, "");
+        return jax.parseOptions.nodeFactory.create(
+          "error",
+          message,
+          err.id,
+          "Error: " + message
+        );
+      },
+      useLabelIds: true,
+    },
+    options: {
+      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+      processHtmlClass:
+        "md-mathjax-preview|md-inline-math|inline-math-export-jax|math-in-toc",
+      menuOptions: {
+        settings: {
+          inTabOrder: false,
+        },
+      },
+      enableMenu: true,
+      ignoreHtmlClass: "tex2jax_ignore",
+    },
+  };
 
-        window.MathJax = {
-            loader: {load: [/*'ui/safe', 'a11y/semantic-enrich',*/]},
-            tex: {
-                macros: {
-                    // https://github.com/mathjax/MathJax/pull/1810/files
-                    AA:"\u00c5",alef:"\\aleph",alefsym:"\\aleph",Alpha:"\\mathrm{A}",and:"\\land",ang:"\\angle",Bbb:"\\mathbb",Beta:"\\mathrm{B}",bold:"\\mathbf",bull:"\\bullet",C:"\\mathbb{C}",Chi:"\\mathrm{X}",clubs:"\\clubsuit",cnums:"\\mathbb{C}",Complex:"\\mathbb{C}",coppa:"\u03D9",Coppa:"\u03D8",Dagger:"\\ddagger",Digamma:"\u03DC",darr:"\\downarrow",dArr:"\\Downarrow",Darr:"\\Downarrow",diamonds:"\\diamondsuit",empty:"\\emptyset",Epsilon:"\\mathrm{E}",Eta:"\\mathrm{H}",euro:"\u20AC",exist:"\\exists",geneuro:"\u20AC",geneuronarrow:"\u20AC",geneurowide:"\u20AC",H:"\\mathbb{H}",hAar:"\\Leftrightarrow",harr:"\\leftrightarrow",Harr:"\\Leftrightarrow",hearts:"\\heartsuit",image:"\\Im",infin:"\\infty",Iota:"\\mathrm{I}",isin:"\\in",Kappa:"\\mathrm{K}",koppa:"\u03DF",Koppa:"\u03DE",lang:"\\langle",larr:"\\leftarrow",Larr:"\\Leftarrow",lArr:"\\Leftarrow",lrarr:"\\leftrightarrow",Lrarr:"\\Leftrightarrow",lrArr:"\\Leftrightarrow",Mu:"\\mathrm{M}",N:"\\mathbb{N}",natnums:"\\mathbb{N}",Nu:"\\mathrm{N}",O:"\\emptyset",officialeuro:"\u20AC",Omicron:"\\mathrm{O}",or:"\\lor",P:"\u00B6",pagecolor:["",1],part:"\\partial",plusmn:"\\pm",Q:"\\mathbb{Q}",R:"\\mathbb{R}",rang:"\\rangle",rarr:"\\rightarrow",Rarr:"\\Rightarrow",rArr:"\\Rightarrow",real:"\\Re",reals:"\\mathbb{R}",Reals:"\\mathbb{R}",Rho:"\\mathrm{P}",sdot:"\\cdot",sampi:"\u03E1",Sampi:"\u03E0",sect:"\\S",spades:"\\spadesuit",stigma:"\u03DB",Stigma:"\u03DA",sub:"\\subset",sube:"\\subseteq",supe:"\\supseteq",Tau:"\\mathrm{T}",textvisiblespace:"\u2423",thetasym:"\\vartheta",uarr:"\\uparrow",uArr:"\\Uparrow",Uarr:"\\Uparrow",varcoppa:"\u03D9",varstigma:"\u03DB",vline:"\\smash{\\large\\lvert}",weierp:"\\wp",Z:"\\mathbb{Z}",Zeta:"\\mathrm{Z}",
-                    dashint: "\\unicodeInt{x2A0D}",
-                    ddashint: "\\unicodeInt{x2A0E}",
-                    oiint: "\\unicodeInt{x222F}",
-                    oiiint: "\\unicodeInt{x2230}",
-                    ointctrclockwise: "\\unicodeInt{x2233}",
-                    unicodeInt: ["\\mathop{\\vcenter{\\mathchoice{\\huge\\unicode{#1}\\,}{\\unicode{#1}}{\\unicode{#1}}{\\unicode{#1}}}\\,}\\nolimits", 1],
-                    varointclockwise: "\\unicodeInt{x2232}",
-
-                    div: ["\\divsymbol"],
-                    Re: ["\\mathfrak{R}"]
-                },
-                maxBuffer: 10*1024,
-                displayMath: [['$$\n', '\n$$'], ['$$\r\n', '\r\n$$']],
-                inlineMath: [ ['$','$'], ['$$', '$$']],
-                processEscapes: true,
-                packages: {'[+]': ['noundefined', 'autoload', 'ams', 'physics', 'textmacros', 'xypic']},
-                tags: (window._options || {}).autoNumberingForMath ? "all" : "none",
-                formatError:               // function called when TeX syntax errors occur
-                (jax, err) => {
-                    var message = err.message.replace(/\n.*/, "");
-                    return jax.parseOptions.nodeFactory.create("error", message, err.id, "Error: " + message);
-                },
-                useLabelIds: true
-            },
-            svg: {
-                scale: 1,
-                minScale: 80,
-            },
-            options: {
-                skipHtmlTags: ["script","noscript","style","textarea","pre","code"],
-                processHtmlClass: "md-mathjax-preview|md-inline-math|inline-math-export-jax|math-in-toc",
-                menuOptions: {
-                    settings: {
-                        inTabOrder: false
-                    }
-                },
-                sre: {
-                    speech: 'shallow',      // or 'shallow', or 'deep'
-                },
-                enableMenu: false,
-                ignoreHtmlClass: 'tex2jax_ignore',
-            }
-        };
-
-(function () {
-    var script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js';
+  (function () {
+    var script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js";
     script.async = true;
     document.head.appendChild(script);
-})();
-
+  })();
 </script>
-<style id="MJX-SVG-styles">
-    mjx-container {
-        font-size: 1.2em;
-    }
-    mjx-container[jax="SVG"] {
-      direction: ltr;
-      display: inline-block;
-    }
-    
-    mjx-container[jax="SVG"] > svg {
-      overflow: visible;
-      min-height: 1px;
-      min-width: 1px;
-    }
-    
-    mjx-container[jax="SVG"] > svg a {
-      fill: blue;
-      stroke: blue;
-    }
-    
-    mjx-assistive-mml {
-      position: absolute !important;
-      top: 0px;
-      left: 0px;
-      clip: rect(1px, 1px, 1px, 1px);
-      padding: 1px 0px 0px 0px !important;
-      border: 0px !important;
-      display: block !important;
-      width: auto !important;
-      overflow: hidden !important;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-    
-    mjx-assistive-mml[display="block"] {
-      width: 100% !important;
-    }
-    
-    mjx-container[jax="SVG"][display="true"] {
-      display: block;
-      text-align: center;
-      margin: 1em 0;
-    }
-    
-    mjx-container[jax="SVG"][display="true"][width="full"] {
-      display: flex;
-    }
-    
-    mjx-container[jax="SVG"][justify="left"] {
-      text-align: left;
-    }
-    
-    mjx-container[jax="SVG"][justify="right"] {
-      text-align: right;
-    }
-    
-    g[data-mml-node="merror"] > g {
-      fill: red;
-      stroke: red;
-    }
-    
-    g[data-mml-node="merror"] > rect[data-background] {
-      fill: yellow;
-      stroke: none;
-    }
-    
-    g[data-mml-node="mtable"] > line[data-line], svg[data-table] > g > line[data-line] {
-      stroke-width: 70px;
-      fill: none;
-    }
-    
-    g[data-mml-node="mtable"] > rect[data-frame], svg[data-table] > g > rect[data-frame] {
-      stroke-width: 70px;
-      fill: none;
-    }
-    
-    g[data-mml-node="mtable"] > .mjx-dashed, svg[data-table] > g > .mjx-dashed {
-      stroke-dasharray: 140;
-    }
-    
-    g[data-mml-node="mtable"] > .mjx-dotted, svg[data-table] > g > .mjx-dotted {
-      stroke-linecap: round;
-      stroke-dasharray: 0,140;
-    }
-    
-    g[data-mml-node="mtable"] > g > svg {
-      overflow: visible;
-    }
-    
-    [jax="SVG"] mjx-tool {
-      display: inline-block;
-      position: relative;
-      width: 0;
-      height: 0;
-    }
-    
-    [jax="SVG"] mjx-tool > mjx-tip {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-    
-    </style>
+
+<style>
+  mjx-container {
+    display: inline-block;
+  }
+  mjx-container svg{
+    display: inline-block;
+  }
+  .MathJax {
+    font-size: 1.3em;
+  }
+</style>
