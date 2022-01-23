@@ -4,6 +4,7 @@
 {{- end }}
 
 {{ if and .Site.Params.utteranc.enable $enableComment }}
+<div class="text-sm text-gray-500 mt-8">如果有任何问题或者需要反馈文章的错误，欢迎您在此评论。</div>
 <script src="https://utteranc.es/client.js"
 repo="{{ .Site.Params.utteranc.repo }}"
 issue-term="{{ .Site.Params.utteranc.issueTerm }}"

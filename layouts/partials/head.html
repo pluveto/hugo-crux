@@ -9,19 +9,20 @@
 .Keywords "," }}" /> {{ end -}} {{- if .Params.Author }}
 <meta name="author" content="{{ .Params.Author}}" />
 {{ end -}} {{ hugo.Generator }} {{- $styles := resources.Get "css/styles.css" |
-postCSS (dict "config" "./assets/css/postcss.config.js") -}}
-
-{{- if .Site.IsServer }}
+postCSS (dict "config" "./assets/css/postcss.config.js") -}} {{- if
+.Site.IsServer }}
 <link rel="stylesheet" href="{{ $styles.RelPermalink }}" />
-{{ else }}
-{{- $styles := $styles| minify | fingerprint | resources.PostProcess -}}
-<link  rel="stylesheet"  href="{{ $styles.Permalink }}"  integrity="{{ $styles.Data.Integrity }}" />
+{{ else }} {{- $styles := $styles| minify | fingerprint | resources.PostProcess
+-}}
+<link
+  rel="stylesheet"
+  href="{{ $styles.Permalink }}"
+/>
 {{ end -}} {{- $siteStyle := resources.Get "css/site.css" | minify | fingerprint
 -}}
 <link
   rel="stylesheet"
   href="{{ $siteStyle.Permalink }}"
-  integrity="{{ $styles.Data.Integrity }}"
 />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,9 +33,8 @@ postCSS (dict "config" "./assets/css/postcss.config.js") -}}
   href="https://cdn.jsdelivr.net/npm/boxicons@2.0.9/css/boxicons.min.css"
 />
 
-{{ template "_internal/opengraph.html" . }}
-
-{{ $siteJs := resources.Get "js/site.js" }}
+{{ template "_internal/opengraph.html" . }} {{ $siteJs := resources.Get
+"js/site.js" }}
 <script type="text/javascript" src="{{ $siteJs.RelPermalink }}"></script>
 
 {{ partial "busuanzi.html" . }} {{ partial "icon.html"}}
@@ -47,22 +47,30 @@ postCSS (dict "config" "./assets/css/postcss.config.js") -}}
 />
 <style>
   @font-face {
-    font-family: 'Cascadia Code';
+    font-family: "Cascadia Code";
     font-style: normal;
     font-weight: 400;
-    src: local('Cascadia Code'), url('/font/CascadiaCode.woff2');
+    src: local("Cascadia Code"), url("/font/CascadiaCode.woff2");
   }
   .prose pre code {
-    font-family: 'Cascadia Code', monospace, consolas !important;
+    font-family: "Cascadia Code", monospace, consolas !important;
     font-size: 13px !important;
   }
   .prose pre code > * {
     line-height: 0.5;
   }
   .prose code {
-    font-family: 'Cascadia Code';
+    font-family: "Cascadia Code";
   }
   .toc-nav {
     min-width: 13em;
+  }
+  .prose blockquote {
+    border-left: 0.2rem solid rgb(255, 205, 205);
+    color: #777777;
+    font-family: "Lexend", "NotoSansSC";
+    font-size: 0.9rem;
+    font-style: normal;
+    padding-left: 2rem;
   }
 </style>
